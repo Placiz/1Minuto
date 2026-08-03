@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 minuto para hablar</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,900;1,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+  :root{
+    --bg: #f4f1ea;
+    --ink: #17140f;
+    --ink-soft: #6b6559;
+    --card: #ffffff;
+    --line: #e6e1d5;
+    --accent-random: #ff5a36;
+    --accent-finanzas: #0f6657;
+    --accent: var(--accent-random);
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    padding: 32px 20px;
+  }
+
+  .wrap{
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .tabs{
+    display:flex;
+    gap: 28px;
+    margin-bottom: 28px;
+    justify-content:center;
+  }
+  .tab{
+    background:none;
+    border:none;
+    font-family:'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 4px 2px 10px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .tab.active{
+    color: var(--ink);
+    border-color: var(--accent);
+  }
+
+  .card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 90px 44px;
+    min-height: 400px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .eyebrow{
+    position:absolute;
+    top: 22px;
+    left: 28px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .topic{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(30px, 8vw, 44px);
+    line-height: 1.18;
+    color: var(--ink);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity .16s ease, transform .16s ease;
+  }
+  .topic.leaving{
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  .topic.incoming{
+    opacity: 0;
+    transform: translateY(20px);
+    transition: none;
+  }
+
+  .actions{
+    display:flex;
+    justify-content: center;
+    margin-top: 28px;
+  }
+
+  .spin-btn{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    padding: 15px 36px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .2s ease, transform .12s ease;
+  }
+  .spin-btn:hover{ background: var(--accent); }
+  .spin-btn:active{ transform: scale(0.97); }
+  .spin-btn:disabled{ opacity: .5; cursor: default; }
+  .spin-btn:disabled:hover{ background: var(--ink); }
+
+  .timer-row{
+    margin-top: 30px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity .4s ease, max-height .4s ease;
+  }
+  .timer-row.show{
+    opacity: 1;
+    max-height: 200px;
+  }
+
+  .timer-track{
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .timer-fill{
+    height: 100%;
+    width: 100%;
+    background: var(--accent);
+    transform-origin: left;
+    transition: transform 1s linear;
+  }
+
+  .timer-meta{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .timer-digits{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 64px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .timer-digits.done{ color: var(--accent); font-size: 34px; }
+
+  .timer-links{
+    display:flex;
+    gap: 16px;
+  }
+  .link-btn{
+    background:none;
+    border:none;
+    font-family:'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor:pointer;
+    padding: 0;
+  }
+  .link-btn:hover{ color: var(--ink); }
+
+  body.dark{
+    --bg:#17140f;
+    --ink:#f4f1ea;
+    --ink-soft:#c8c2b5;
+    --card:#24211b;
+    --line:#3a352c;
+  }
+
+  .focus-view{
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    z-index: 50;
+  }
+  .focus-view.show{ display: flex; }
+
+  .focus-eyebrow{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .focus-topic{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(22px, 5.5vw, 32px);
+    line-height: 1.2;
+    text-align: center;
+    max-width: 560px;
+    margin-bottom: 48px;
+  }
+  .focus-digits{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(72px, 22vw, 160px);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .focus-digits.done{ color: var(--accent); font-size: clamp(36px, 8vw, 56px); }
+
+  .focus-track{
+    width: 100%;
+    max-width: 420px;
+    height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .focus-fill{
+    height: 100%;
+    width: 100%;
+    background: var(--accent);
+    transform-origin: left;
+    transition: transform 1s linear;
+  }
+
+  .focus-actions{
+    display:flex;
+    gap: 18px;
+    margin-top: 40px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .topic{ transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab active" data-cat="random" onclick="switchCategory('random')">Aleatorio</button>
+    <button class="tab" data-cat="finanzas" onclick="switchCategory('finanzas')">Finanzas</button>
+  </div>
+<div style="text-align:right;margin-bottom:12px;"><button id="themeBtn" class="link-btn" onclick="toggleTheme()">🌙 Modo oscuro</button></div>
+
+  <div class="card">
+    <span class="eyebrow">Habla 1 minuto sobre</span>
+    <div class="topic" id="topic">Toca girar</div>
+  </div>
+
+  <div class="actions">
+    <button class="spin-btn" id="spinBtn" onclick="spin()">Girar tema</button>
+  </div>
+
+  <div class="timer-row" id="timerRow">
+    <div class="timer-track">
+      <div class="timer-fill" id="timerFill"></div>
+    </div>
+    <div class="timer-meta">
+      <span class="timer-digits" id="timerDigits">01:00</span>
+      <div class="timer-links">
+        <button class="spin-btn" id="startBtn" onclick="startTimer()">Iniciar cronómetro</button>
+        <button class="link-btn" onclick="spin()">Otro tema</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="focus-view" id="focusView">
+  <span class="focus-eyebrow">Habla 1 minuto sobre</span>
+  <div class="focus-topic" id="focusTopic">Tema</div>
+  <div class="focus-digits" id="focusDigits">01:00</div>
+  <div class="focus-track">
+    <div class="focus-fill" id="focusFill"></div>
+  </div>
+  <div class="focus-actions">
+    <button class="spin-btn" onclick="focusOtroTema()">Otro tema</button>
+    <button class="link-btn" onclick="exitFocus()">Volver</button>
+  </div>
+</div>
+
+<script>
+const TOPICS = {
+  random: [
+    "La masacre de Camboya","El área 51","Los k-pop stans","El Bigfoot",
+    "La caída del imperio romano","Los iluminati","El fin del mundo","La Atlántida",
+    "Los memes de 2016","Chernóbil","Los extraterrestres","El triángulo de las Bermudas",
+    "Napoleón Bonaparte","Los años 2000","Los reguetoneros","Los gatos de internet",
+    "El Titanic","La Guerra Fría","Los influencers","Un miedo irracional que tienes",
+    "La Edad Media","Los vikingos","El clima en Colombia","Un mito urbano",
+    "Los realities de televisión","El fin del papel moneda","Los perros","Las teorías de conspiración",
+    "El multiverso","Los youtubers de gaming","La luna","Las princesas de Disney",
+    "La comida colombiana vs otras","El apocalipsis zombie","Un secreto de familia (que puedas contar)","La teoría de que la tierra es plana",
+    "Los ovnis en Colombia","El reguetón vs el vallenato","Los memes que ya nadie recuerda","El fin de las redes sociales",
+    "El Everest","Las Islas Galápagos","Japón","La Amazonía",
+    "El desierto del Sahara","La Antártida","Islandia","Machu Picchu",
+    "La Gran Muralla China","Corea del Norte","La Isla de Pascua","El Vaticano",
+    "Groenlandia","Los Andes","Dubái","La Patagonia",
+    "El Kilimanjaro","Las Cataratas del Niágara","La CIA","El KGB",
+    "El MI6","El Mossad","La Operación Cóndor","El caso Snowden",
+    "WikiLeaks","El Zodiac Killer","Jack el Destripador","La desaparición de Amelia Earhart",
+    "El código Voynich","El vuelo MH370","La Isla de las Muñecas","El asesinato de Kennedy",
+    "D.B. Cooper","Los crop circles","El proyecto MKUltra","Roswell",
+    "El hombre de Taured","La Sociedad Bilderberg","Los túneles secretos bajo el Vaticano","El Dorado (la leyenda)",
+    "El mapa del tesoro pirata","El caso del Palacio de Justicia","La Primera Guerra Mundial","La Segunda Guerra Mundial",
+    "El Holocausto","La bomba atómica en Hiroshima y Nagasaki","La esclavitud","El genocidio de Ruanda",
+    "El M-19","La religión (si Dios existe)","La legalización de las drogas","El ELN",
+  ],
+  finanzas: [
+    "La inflación en Colombia","Qué es un CDT","Bitcoin sí o no",
+    "El dólar vs el peso","Ahorrar vs invertir","Las tarjetas de crédito",
+    "Burbujas especulativas","El SOAT","La UVR","Fondos de pensiones en Colombia",
+    "Nu vs bancos tradicionales","Trading vs inversión a largo plazo",
+    "Qué es el DTF","El interés compuesto","Deuda buena vs deuda mala",
+    "Criptomonedas y estafas","El BanRep y las tasas de interés",
+    "Comprar vivienda vs arrendar","Freelance y declarar renta",
+    "Educación financiera en el colegio","Qué harías con un millón de pesos",
+    "El salario mínimo en Colombia","Emprender vs empleo fijo",
+    "Los fondos de inversión colectiva","El riesgo país",
+    "Qué es el PIB","La UVT y los impuestos","Renta pasiva vs activa",
+    "Las stablecoins","Qué es el spread cambiario","El leasing habitacional",
+    "Tarjetas débito vs crédito","La reforma pensional en Colombia",
+    "Qué es un ETF","El apalancamiento en trading","Ahorrar en dólares",
+    "El mercado de valores colombiano (BVC)","Qué es un unicornio (startup)",
+    "El efecto de la tasa de usura","Comprar carro de contado vs financiado"
+  ]
+};
+
+let currentCat = 'random';
+let lastTopic = null;
+let timerInterval = null;
+let secondsLeft = 60;
+const TOTAL = 60;
+
+function switchCategory(cat){
+  currentCat = cat;
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.cat === cat);
+  });
+  document.documentElement.style.setProperty(
+    '--accent',
+    cat === 'finanzas' ? 'var(--accent-finanzas)' : 'var(--accent-random)'
+  );
+  document.getElementById('topic').textContent = 'Toca girar';
+  lastTopic = null;
+  clearInterval(timerInterval);
+  document.getElementById('timerRow').classList.remove('show');
+  exitFocus();
+}
+
+function pickTopic(){
+  const list = TOPICS[currentCat];
+  let choice;
+  do{
+    choice = list[Math.floor(Math.random()*list.length)];
+  } while(list.length > 1 && choice === lastTopic);
+  lastTopic = choice;
+  return choice;
+}
+
+function swapTopic(text, done){
+  const topicEl = document.getElementById('topic');
+  topicEl.classList.add('leaving');
+  setTimeout(()=>{
+    topicEl.textContent = text;
+    topicEl.classList.remove('leaving');
+    topicEl.classList.add('incoming');
+    void topicEl.offsetHeight;
+    topicEl.classList.remove('incoming');
+    if(done) done();
+  }, 150);
+}
+
+function spin(){
+  const btn = document.getElementById('spinBtn');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  btn.disabled = true;
+  clearInterval(timerInterval);
+  document.getElementById('timerRow').classList.remove('show');
+  exitFocus();
+
+  const delays = reduced ? [0] : [90, 100, 120, 150, 190, 240, 300];
+  let i = 0;
+
+  function step(){
+    const isLast = i === delays.length - 1;
+    const text = isLast ? pickTopic() : TOPICS[currentCat][Math.floor(Math.random()*TOPICS[currentCat].length)];
+    swapTopic(text, ()=>{
+      if(isLast){
+        btn.disabled = false;
+        resetTimerUI();
+        document.getElementById('timerRow').classList.add('show');
+        return;
+      }
+      i++;
+      setTimeout(step, delays[i]);
+    });
+  }
+  step();
+}
+
+function resetTimerUI(){
+  clearInterval(timerInterval);
+  secondsLeft = TOTAL;
+  const fill = document.getElementById('timerFill');
+  const digits = document.getElementById('timerDigits');
+  digits.classList.remove('done');
+  fill.style.transition = 'none';
+  fill.style.transform = 'scaleX(1)';
+  void fill.offsetHeight;
+  updateDigits();
+  document.getElementById('startBtn').textContent = 'Iniciar cronómetro';
+}
+
+function enterFocus(){
+  document.getElementById('focusTopic').textContent = document.getElementById('topic').textContent;
+  document.getElementById('focusView').classList.add('show');
+}
+
+function exitFocus(){
+  document.getElementById('focusView').classList.remove('show');
+}
+
+function focusOtroTema(){
+  const newTopic = pickTopic();
+  document.getElementById('topic').textContent = newTopic;
+  startTimer();
+}
+
+function startTimer(){
+  clearInterval(timerInterval);
+  secondsLeft = TOTAL;
+  const fill = document.getElementById('timerFill');
+  const digits = document.getElementById('timerDigits');
+  const focusFill = document.getElementById('focusFill');
+  const focusDigits = document.getElementById('focusDigits');
+  digits.classList.remove('done');
+  focusDigits.classList.remove('done');
+  document.getElementById('startBtn').textContent = 'Reiniciar';
+  [fill, focusFill].forEach(f=>{
+    f.style.transition = 'none';
+    f.style.transform = 'scaleX(1)';
+  });
+  void fill.offsetHeight;
+  [fill, focusFill].forEach(f=>{ f.style.transition = 'transform 1s linear'; });
+  updateDigits();
+  enterFocus();
+
+  timerInterval = setInterval(()=>{
+    secondsLeft--;
+    if(secondsLeft <= 0){
+      secondsLeft = 0;
+      fill.style.transform = 'scaleX(0)';
+      focusFill.style.transform = 'scaleX(0)';
+      digits.textContent = '¡Se acabó!';
+      focusDigits.textContent = '¡Se acabó!';
+      digits.classList.add('done');
+      focusDigits.classList.add('done');
+      clearInterval(timerInterval);
+      return;
+    }
+    fill.style.transform = `scaleX(${secondsLeft/TOTAL})`;
+    focusFill.style.transform = `scaleX(${secondsLeft/TOTAL})`;
+    updateDigits();
+  }, 1000);
+}
+
+function updateDigits(){
+  const m = String(Math.floor(secondsLeft/60)).padStart(2,'0');
+  const s = String(secondsLeft%60).padStart(2,'0');
+  const text = `${m}:${s}`;
+  document.getElementById('timerDigits').textContent = text;
+  document.getElementById('focusDigits').textContent = text;
+}
+
+function toggleTheme(){
+ const b=document.body;
+ b.classList.toggle('dark');
+ const dark=b.classList.contains('dark');
+ localStorage.setItem('theme',dark?'dark':'light');
+ document.getElementById('themeBtn').textContent=dark?'☀️ Modo claro':'🌙 Modo oscuro';
+}
+(function(){
+ const dark=localStorage.getItem('theme')==='dark';
+ if(dark){
+   document.body.classList.add('dark');
+   window.addEventListener('DOMContentLoaded',()=>{document.getElementById('themeBtn').textContent='☀️ Modo claro';});
+ }
+})();
+
+</script>
+
+</body>
+</html>
