@@ -297,6 +297,31 @@ a{color:inherit}
   .sheet{padding:0;place-items:end stretch}
   .sheet .box{width:100%;max-height:88svh;border-radius:16px 16px 0 0}
 }
+
+/* ---- epílogo ---- */
+#flag{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 1.4s ease}
+.stage.outro #flag{opacity:1}
+.stage.outro #countries path{fill-opacity:.22;stroke-opacity:.35}
+.stage.outro #countries path.col{fill:transparent;fill-opacity:0;stroke:var(--gold);stroke-opacity:1;stroke-width:calc(var(--sw,1) * 2.2px);filter:drop-shadow(0 0 6px rgba(232,185,62,.6))}
+.stage.outro .hud,.stage.outro .mleg,.stage.outro .note{opacity:0;pointer-events:none}
+.hud{transition:opacity .6s}
+.quote{position:absolute;left:clamp(20px,4vw,48px);top:clamp(64px,9vh,96px);max-width:min(560px,70%);pointer-events:none;opacity:0;transform:translateY(14px);transition:opacity 1.2s ease .5s, transform 1.2s ease .5s;z-index:2}
+.stage.outro .quote{opacity:1;transform:none}
+.quote p{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(34px,4.6vw,66px);line-height:1.02;letter-spacing:-.01em;text-wrap:balance;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.6)}
+.quote em{font-style:italic;font-weight:500;color:var(--gold)}
+.quote span{display:block;margin-top:12px;font-size:14px;color:var(--ink-2);text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.card.outro h2{font-size:clamp(30px,3vw,40px);line-height:1.05}
+.card.outro h2 em{font-style:italic;font-weight:500;color:var(--gold)}
+.card.outro .attr{margin:-6px 0 0;font-size:13.5px;color:var(--ink-3)}
+.flagbar{display:flex;height:10px;border-radius:3px;overflow:hidden}
+.flagbar i{display:block}
+.rimas{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.rimas li{display:grid;grid-template-columns:118px minmax(0,1fr);gap:10px;padding:9px 2px;border-bottom:1px solid var(--rule);font-size:14.5px;line-height:1.4}
+.rimas b{color:var(--gold);font-size:13px;font-variant-numeric:tabular-nums}
+.step.active .rimas li{animation:rise .5s ease both;animation-delay:calc(.4s + var(--i) * .2s)}
+.again{align-self:flex-start;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:8px 16px;font-weight:700;font-size:15px}
+.again:hover{background:var(--gold);color:#1a1405}
+@media (max-width:899px){ .quote{top:52px;max-width:88%} .quote p{font-size:28px} .quote span{font-size:12px;margin-top:6px} .rimas li{grid-template-columns:1fr;gap:2px} }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}
 }
@@ -309,6 +334,7 @@ a{color:inherit}
 <button type="button" class="fab left" id="srcBtn" aria-haspopup="dialog"><svg viewBox="0 0 16 16"><path d="M3 1.5h7l3 3v10H3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.5 7.5h5M5.5 10h5M5.5 12.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><span>Fuentes</span></button>
 <main class="scrolly">
   <div class="stage" id="stage">
+    <canvas id="flag" aria-hidden="true"></canvas>
     <svg id="map" aria-label="Mapa animado de Colombia y sus vecinos">
       <defs>
         <radialGradient id="vig" cx="50%" cy="45%" r="75%"><stop offset="60%" stop-color="#0d1319" stop-opacity="0"/><stop offset="100%" stop-color="#0d1319" stop-opacity=".85"/></radialGradient>
@@ -317,6 +343,7 @@ a{color:inherit}
       <rect width="100%" height="100%" fill="url(#vig)" pointer-events="none"/>
       <g id="ov"></g>
     </svg>
+    <div class="quote" id="quote" aria-hidden="true"><p>La historia no se repite,<br>pero muchas veces <em>rima</em>.</p><span>Frase atribuida a Mark Twain</span></div>
     <div class="hud"><div class="era" id="era"><i></i><span></span></div><div class="year" id="year">1499</div></div>
     <button type="button" class="fab" id="fab" aria-pressed="false"><svg viewBox="0 0 16 16" id="fabIcon"><path d="M3 1.5v13l11-6.5z" fill="currentColor"/></svg><span>Reproducir</span></button>
     <div class="mleg" id="mleg" hidden></div>
@@ -434,13 +461,13 @@ const PLEB_NO = ["05","81","17","18","85","25","41","50","54","63","66","68","73
 /* ================= CAPÍTULOS ================= */
 const ERA = {
   col:{l:"Conquista y colonia", c:"--e-col"}, ind:{l:"Independencia", c:"--e-ind"}, civ:{l:"Guerras civiles", c:"--e-civ"},
-  ter:{l:"Territorio", c:"--e-ter"}, vio:{l:"Violencia política", c:"--e-vio"}, arm:{l:"Conflicto armado", c:"--e-arm"}
+  ter:{l:"Territorio", c:"--e-ter"}, vio:{l:"Violencia política", c:"--e-vio"}, arm:{l:"Conflicto armado", c:"--e-arm"}, fin:{l:"Epílogo", c:"--gold"}
 };
 const V = {
   col:[[-80,-4.6],[-66.4,12.9]], andes:[[-80.2,-1.2],[-68.4,12.3]], caribe:[[-78.5,7.6],[-68.5,13.2]],
   centro:[[-75.2,3.9],[-71.2,7.3]], llanos:[[-75.4,3.9],[-68.6,8.1]], gran:[[-84,-5.8],[-59.5,13.2]], panama:[[-84.2,4.5],[-73.5,11.6]],
   sur:[[-80.5,-5.6],[-66,5.5]], sa:[[-85.5,8.8],[-73.5,15.2]], bananas:[[-76.2,9.6],[-72.6,11.8]], norte:[[-78,5.8],[-71,11.8]],
-  cag:[[-76.4,0.6],[-71.4,4.6]], region:[[-86.5,-6],[-60,15.5]], bogo:[[-76.6,3.2],[-71.6,6.3]]
+  cag:[[-76.4,0.6],[-71.4,4.6]], outro:[[-87,-4.6],[-66.4,12.9]], region:[[-86.5,-6],[-60,15.5]], bogo:[[-76.6,3.2],[-71.6,6.3]]
 };
 const GC = ["170","862","218","591"];
 
@@ -973,7 +1000,14 @@ const C = [
 {era:"arm", y:2026, yl:"el balance", v:"col", terr:{ghost:["170"]}, special:"balance",
  h:"Los que casi siempre pierden",
  t:"En casi todas las disputas de este recorrido, quienes más perdieron no pertenecían a ningún bando: campesinos, indígenas, afrodescendientes, líderes sociales.",
- src:[S.cev, S.cev2, S.basta, S.ruv, S.ruv2]}
+ src:[S.cev, S.cev2, S.basta, S.ruv, S.ruv2]},
+{era:"fin", y:2026, yl:"epílogo", v:"outro", terr:{col:["170"]}, outro:true,
+ h:"La historia no se repite, pero muchas veces rima",
+ t:"Cambian los nombres, las armas y los colores de los bandos. Los patrones vuelven.",
+ rimas:[["1854 · 1957","Las élites de los dos partidos se unen para cerrarle el paso a quien viene de abajo: primero contra Melo, luego con el Frente Nacional."],
+        ["1948 · 1989 · 2025","Un aspirante a la presidencia asesinado en Bogotá o sus alrededores: Gaitán, Galán, Miguel Uribe Turbay."],
+        ["1830 · 1903 · 2012","El centro pierde lo que queda lejos: Venezuela y Ecuador, Panamá, el mar de San Andrés."],
+        ["1902 · 1953 · 1990 · 2016","Se firma la paz y se entregan las armas. Después, parte de lo pactado no se cumple."]]}
 ];
 
 </script>
@@ -1020,6 +1054,15 @@ function specialHTML(c){
 }
 function cardHTML(c,i){
   const era=ERA[c.era], yrs=c.yl||(c.y2?`${c.y}–${c.y2}`:`${c.y}`);
+  if(c.outro) return `<div class="card outro" style="--ec:var(--gold)">
+    <div class="kicker"><i></i>Epílogo<span>${i} / ${C.length-1}</span></div>
+    <div class="flagbar" aria-hidden="true"><i style="flex:2;background:#FCD116"></i><i style="flex:1;background:#003893"></i><i style="flex:1;background:#CE1126"></i></div>
+    <h2>La historia no se repite, pero muchas veces <em>rima</em>.</h2>
+    <p class="attr">Frase atribuida a Mark Twain</p>
+    <p class="txt">${esc(c.t)}</p>
+    <p class="hitos-h">Algunas rimas de este recorrido</p>
+    <ol class="rimas">${c.rimas.map((r,k)=>`<li style="--i:${k}"><b>${esc(r[0])}</b><span>${esc(r[1])}</span></li>`).join("")}</ol>
+    <button type="button" class="again" data-restart>↺ Volver al inicio</button></div>`;
   if(c.intro) return `<div class="card" style="--ec:var(${era.c})">
     <div class="kicker"><i style="--ec:var(--gold)"></i>un recorrido visual<span>1499–2026</span></div>
     <h1>Colombia <em>en</em> disputa</h1><p class="txt">${esc(c.t)}</p>
@@ -1253,12 +1296,48 @@ svg.addEventListener("pointermove",e=>{
 });
 svg.addEventListener("pointerleave",()=>dtip.hidden=true);
 
+/* ---------------- bandera ---------------- */
+const COL=GEO.features.find(f=>f.id==="170"), COLP=new Path2D(path(COL)), COLB=path.bounds(COL);
+const flagCv=$("#flag"), fctx=flagCv.getContext("2d");
+let flagRaf=0, flagOn=false;
+function drawFlag(x0,y0,w,h,t,amp,alpha){
+  const step=Math.max(3,Math.round(w/140));
+  fctx.globalAlpha=alpha;
+  for(let x=0;x<w;x+=step){
+    const u=x/w, ph=u*Math.PI*3.2 - t*0.0021, dy=Math.sin(ph)*amp*(0.3+0.7*u), sh=Math.cos(ph)*(0.3+0.7*u);
+    const X=Math.round(x0+x), sw=Math.round(x0+x+step)-X+(alpha<1?0:1);
+    const Y=Math.round(y0+dy), y1=Math.round(y0+dy+h*.5), y2=Math.round(y0+dy+h*.75), y3=Math.round(y0+dy+h);
+    const lt=Math.round(128+sh*(sh>0?40:95)), k=v=>Math.max(0,Math.min(255,Math.round(v*lt/128)));
+    fctx.fillStyle=`rgb(${k(252)},${k(209)},${k(22)})`; fctx.fillRect(X,Y,sw,y1-Y);
+    fctx.fillStyle=`rgb(${k(0)},${k(56)},${k(147)})`; fctx.fillRect(X,y1,sw,y2-y1);
+    fctx.fillStyle=`rgb(${k(206)},${k(17)},${k(38)})`; fctx.fillRect(X,y2,sw,y3-y2);
+  }
+  fctx.globalAlpha=1;
+}
+function flagFrame(t){
+  const dpr=Math.min(2,devicePixelRatio||1), cw=Math.round(W*dpr), ch=Math.round(H*dpr);
+  if(flagCv.width!==cw||flagCv.height!==ch){ flagCv.width=cw; flagCv.height=ch; }
+  fctx.setTransform(dpr,0,0,dpr,0,0); fctx.clearRect(0,0,W,H);
+  drawFlag(-30,-30,W+60,H+60,t,22,0.3);
+  const [[bx0,by0],[bx1,by1]]=COLB, sx0=bx0*view.k+view.x, sy0=by0*view.k+view.y, sw=(bx1-bx0)*view.k, sh=(by1-by0)*view.k;
+  fctx.save(); fctx.setTransform(dpr*view.k,0,0,dpr*view.k,dpr*view.x,dpr*view.y); fctx.clip(COLP); fctx.setTransform(dpr,0,0,dpr,0,0);
+  drawFlag(sx0-sw*.08,sy0-sh*.06,sw*1.16,sh*1.12,t*1.1,sh*.035,1);
+  fctx.restore();
+  if(flagOn && !RM) flagRaf=requestAnimationFrame(flagFrame);
+}
+function setFlag(on){
+  if(on===flagOn) return; flagOn=on; cancelAnimationFrame(flagRaf);
+  if(on) flagRaf=requestAnimationFrame(flagFrame);
+}
+document.addEventListener("click",e=>{ if(e.target.closest("[data-restart]")) goTo(0); });
+
 function setChapter(i, instant){
   if(i===cur) return; hidePopup(true); cur=i; const c=C[i];
   steps.forEach((s,j)=>s.classList.toggle("active",j===i));
   const era=ERA[c.era]; $("#era").style.setProperty("--ec",`var(${era.c})`); $("#era span").textContent=c.intro?"un recorrido visual":era.l;
   countYear(c);
   updateDock(i);
+  stage.classList.toggle("outro",!!c.outro); setFlag(!!c.outro);
   const T=c.terr||{};
   for(const id in countryEl){ countryEl[id].classList.remove("col","ghost","lost"); }
   (T.col||[]).forEach(id=>countryEl[id]?.classList.add("col"));
@@ -1268,7 +1347,7 @@ function setChapter(i, instant){
   flyTo(fit(V[c.v]), instant);
   clearLayers();
   const base=instant?0:.9;
-  for(const [l,p] of LABELS){ const g=mk("g",{class:"fadein",style:`animation-delay:${base}s`},gOV); const t=mk("text",{class:"clab","text-anchor":"middle"},g); t.textContent=l; ovAdd(p,g); }
+  if(!c.outro) for(const [l,p] of LABELS){ const g=mk("g",{class:"fadein",style:`animation-delay:${base}s`},gOV); const t=mk("text",{class:"clab","text-anchor":"middle"},g); t.textContent=l; ovAdd(p,g); }
   if(c.lay && c.lay.labels) for(const [l,p] of c.lay.labels){ const g=mk("g",{class:"fadein",style:`animation-delay:${base+.4}s`},gOV); const t=mk("text",{class:"slab","text-anchor":"middle"},g); t.textContent=l; ovAdd(p,g); }
   if(c.tl){ const g=mk("g",{class:"fadein",style:`animation-delay:${base+.3}s`},gOV); const t=mk("text",{class:"tlab","text-anchor":"middle"},g); t.textContent=c.tl.l; ovAdd(c.tl.p,g); }
   if(c.area){ const circle=d3.geoCircle().center(c.area.p).radius(c.area.r)(); const n=mk("path",{d:path(circle),class:"area",style:`animation-delay:${base}s${c.area.lose?";fill:rgba(239,107,97,.18);stroke:var(--lose)":""}`},gFX); fxNodes.push(n); }
@@ -1328,7 +1407,7 @@ function goTo(i){
   scrollTo({top:Math.max(0,Math.min(top, r.top+scrollY - 16)),behavior:RM?"auto":"smooth"});
 }
 addEventListener("scroll",()=>requestAnimationFrame(onScroll),{passive:true});
-addEventListener("resize",()=>{ dims(); applyView(fit(V[C[Math.max(cur,0)].v])); });
+addEventListener("resize",()=>{ dims(); applyView(fit(V[C[Math.max(cur,0)].v])); if(flagOn && RM) flagFrame(0); });
 
 /* ---------------- play ---------------- */
 let playing=false, pt=0;
