@@ -351,7 +351,7 @@ a{color:inherit}
     </svg>
     <div class="quote" id="quote"><p>La historia no se repite,<br>pero muchas veces <em>rima</em>.</p><span>Frase atribuida a Mark Twain</span><button type="button" class="again" data-restart>↺ Volver al inicio</button></div>
     <div class="hud"><div class="era" id="era"><i></i><span></span></div><div class="year" id="year">1499</div></div>
-    <button type="button" class="fab" id="fab" aria-pressed="false"><svg viewBox="0 0 16 16" id="fabIcon"><path d="M3 1.5v13l11-6.5z" fill="currentColor"/></svg><span>Reproducir</span></button>
+    <button type="button" class="fab" id="fab"><span>Siguiente</span><svg viewBox="0 0 16 16" id="fabIcon"></svg></button>
     <div class="mleg" id="mleg" hidden></div>
     <div class="note" id="note">Fronteras actuales como referencia. Mapa: DANE (2018), Natural Earth.</div>
     <div class="popup" id="popup" hidden></div>
@@ -479,7 +479,7 @@ const GC = ["170","862","218","591"];
 
 const C = [
 {era:"col", y:1499, yl:"antes de 1499", v:"col", terr:{ghost:["170"]}, intro:true,
- t:"Cinco siglos de bandos, guerras y fronteras sobre el mapa, con más detalle desde 1810 hasta 2026. Baja para avanzar o dale play. Toca los hitos o los puntos del mapa para ver más."},
+ t:"Cinco siglos de bandos, guerras y fronteras sobre el mapa, con más detalle desde 1810 hasta 2026. Baja para avanzar o toca «Siguiente» para pasar de capítulo a tu ritmo. Toca los hitos o los puntos del mapa para ver más."},
 {era:"col", y:1499, yl:"antes de 1499", v:"col", terr:{ghost:["170"]},
  h:"Antes: cientos de pueblos",
  t:"Muiscas en el altiplano, taironas en la Sierra Nevada, zenúes en el Sinú, quimbayas en el Cauca, pijaos en la cordillera.",
@@ -1072,7 +1072,7 @@ function cardHTML(c,i){
   if(c.intro) return `<div class="card" style="--ec:var(${era.c})">
     <div class="kicker"><i style="--ec:var(--gold)"></i>un recorrido visual<span>1499–2026</span></div>
     <h1>Colombia <em>en</em> disputa</h1><p class="txt">${esc(c.t)}</p>
-    <button type="button" class="play" id="play"><svg viewBox="0 0 16 16"><path d="M3 1.5v13l11-6.5z" fill="currentColor"/></svg>Reproducir el recorrido</button>
+    <button type="button" class="play" id="play"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Empezar el recorrido</button>
     <ul class="howto"><li><b>Hitos:</b> cada fecha de una ficha es un punto en el mapa; tócala para ubicarla.</li><li><b>Capas:</b> algunos capítulos colorean el mapa por estados o departamentos; pasa el dedo o el cursor para ver el nombre.</li><li><b>Fuentes:</b> al pie de cada ficha y todas juntas en el botón «Fuentes», en la esquina superior izquierda.</li></ul>
     <div class="legend"><span class="stamp g">ganó</span><span class="stamp p">perdió</span><span class="stamp m">a medias</span><span class="stamp o">sin desenlace</span></div></div>`;
   let stat="";
@@ -1342,7 +1342,7 @@ function setChapter(i, instant){
   steps.forEach((s,j)=>s.classList.toggle("active",j===i));
   const era=ERA[c.era]; $("#era").style.setProperty("--ec",`var(${era.c})`); $("#era span").textContent=c.intro?"un recorrido visual":era.l;
   countYear(c);
-  updateDock(i);
+  updateDock(i); updateFab(i);
   stage.classList.toggle("outro",!!c.outro); setFlag(!!c.outro); dims();
   const T=c.terr||{};
   for(const id in countryEl){ countryEl[id].classList.remove("col","ghost","lost"); }
@@ -1416,26 +1416,17 @@ addEventListener("scroll",()=>requestAnimationFrame(onScroll),{passive:true});
 addEventListener("resize",()=>{ dims(); applyView(fit(V[C[Math.max(cur,0)].v])); if(flagOn && RM) flagFrame(0); });
 
 /* ---------------- play ---------------- */
-let playing=false, pt=0;
-function setPlaying(on){
-  playing=on; clearTimeout(pt);
-  $("#fab").setAttribute("aria-pressed",on);
-  $("#fab span").textContent=on?"Pausa":"Reproducir";
-  $("#fabIcon").innerHTML=on?'<path d="M3 2h3.5v12H3zM9.5 2H13v12H9.5z" fill="currentColor"/>':'<path d="M3 1.5v13l11-6.5z" fill="currentColor"/>';
-  if(on) advance();
+const playing=false; function setPlaying(){}
+const ARROW='<path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>';
+const RESTART='<path d="M3.5 8a4.5 4.5 0 1 0 1.4-3.3M3.5 2.5v2.8h2.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+function updateFab(i){
+  const last = i>=C.length-1;
+  $("#fab span").textContent = i===0 ? "Empezar" : last ? "Volver al inicio" : "Siguiente";
+  $("#fabIcon").innerHTML = last ? RESTART : ARROW;
+  $("#fab").setAttribute("aria-label", last ? "Volver al inicio" : "Ir al capítulo siguiente");
 }
-function advance(){
-  if(!playing) return;
-  const next=Math.min(C.length-1,cur+1);
-  if(next===cur){ setPlaying(false); return; }
-  goTo(next);
-  const c=C[next], ms=5000 + (c.rt?2600:0) + ((c.ev||[]).length*700) + (c.sides?1200:0);
-  pt=setTimeout(advance, ms);
-}
-$("#fab").onclick=()=>setPlaying(!playing);
-$("#play").onclick=()=>setPlaying(true);
-["wheel","touchstart"].forEach(ev=>addEventListener(ev,e=>{ if(playing && !e.target.closest?.(".fab,.dock")) setPlaying(false); },{passive:true}));
-addEventListener("keydown",e=>{ if(playing && ["ArrowDown","ArrowUp","PageDown","PageUp"," "].includes(e.key)) setPlaying(false); });
+$("#fab").onclick=()=>goTo(cur>=C.length-1 ? 0 : cur+1);
+$("#play").onclick=()=>goTo(1);
 
 /* ---------------- boot ---------------- */
 dims(); applyView(fit(V.col)); setChapter(0,true); onScroll();
