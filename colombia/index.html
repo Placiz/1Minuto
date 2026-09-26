@@ -322,6 +322,12 @@ a{color:inherit}
 .again{align-self:flex-start;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:8px 16px;font-weight:700;font-size:15px}
 .again:hover{background:var(--gold);color:#1a1405}
 @media (max-width:899px){ .quote{top:52px;max-width:88%} .quote p{font-size:28px} .quote span{font-size:12px;margin-top:6px} .rimas li{grid-template-columns:1fr;gap:2px} }
+
+.stage.outro{position:fixed;inset:0;top:0;width:100%;height:100svh;z-index:10;border:0}
+.card.outro{visibility:hidden}
+.quote .again{pointer-events:none;margin-top:22px;background:rgba(13,19,25,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.stage.outro .quote .again{pointer-events:auto}
+@media (max-width:899px){ .stage.outro{height:100svh} .quote .again{margin-top:14px;font-size:14px;padding:7px 14px} }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}
 }
@@ -343,7 +349,7 @@ a{color:inherit}
       <rect width="100%" height="100%" fill="url(#vig)" pointer-events="none"/>
       <g id="ov"></g>
     </svg>
-    <div class="quote" id="quote" aria-hidden="true"><p>La historia no se repite,<br>pero muchas veces <em>rima</em>.</p><span>Frase atribuida a Mark Twain</span></div>
+    <div class="quote" id="quote"><p>La historia no se repite,<br>pero muchas veces <em>rima</em>.</p><span>Frase atribuida a Mark Twain</span><button type="button" class="again" data-restart>↺ Volver al inicio</button></div>
     <div class="hud"><div class="era" id="era"><i></i><span></span></div><div class="year" id="year">1499</div></div>
     <button type="button" class="fab" id="fab" aria-pressed="false"><svg viewBox="0 0 16 16" id="fabIcon"><path d="M3 1.5v13l11-6.5z" fill="currentColor"/></svg><span>Reproducir</span></button>
     <div class="mleg" id="mleg" hidden></div>
@@ -1337,7 +1343,7 @@ function setChapter(i, instant){
   const era=ERA[c.era]; $("#era").style.setProperty("--ec",`var(${era.c})`); $("#era span").textContent=c.intro?"un recorrido visual":era.l;
   countYear(c);
   updateDock(i);
-  stage.classList.toggle("outro",!!c.outro); setFlag(!!c.outro);
+  stage.classList.toggle("outro",!!c.outro); setFlag(!!c.outro); dims();
   const T=c.terr||{};
   for(const id in countryEl){ countryEl[id].classList.remove("col","ghost","lost"); }
   (T.col||[]).forEach(id=>countryEl[id]?.classList.add("col"));
