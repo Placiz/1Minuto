@@ -3,10 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Recorrido animado sobre el mapa por las guerras, bandos y fronteras de Colombia, de 1499 a 2026, con capas por departamento y fuentes enlazadas.">
+<meta name="description" content="Recorrido animado sobre el mapa por las guerras, bandos y fronteras de Colombia, de 1499 a 2026: 47 capítulos, personajes, capas por departamento y fuentes enlazadas.">
 <meta property="og:title" content="Colombia en disputa">
-<meta property="og:description" content="Recorrido animado sobre el mapa por las guerras, bandos y fronteras de Colombia, de 1499 a 2026, con capas por departamento y fuentes enlazadas.">
+<meta property="og:description" content="Recorrido animado sobre el mapa por las guerras, bandos y fronteras de Colombia, de 1499 a 2026: 47 capítulos, personajes, capas por departamento y fuentes enlazadas.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://placiz.github.io/1Minuto/colombia/">
+<meta property="og:image" content="https://placiz.github.io/1Minuto/colombia/portada.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mapa de Colombia con la bandera ondeando y el título Colombia en disputa">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Colombia en disputa">
+<meta name="twitter:description" content="Recorrido animado sobre el mapa por las guerras, bandos y fronteras de Colombia, de 1499 a 2026: 47 capítulos, personajes, capas por departamento y fuentes enlazadas.">
+<meta name="twitter:image" content="https://placiz.github.io/1Minuto/colombia/portada.png">
 <meta name="theme-color" content="#0d1319">
 <title>Colombia en disputa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -328,6 +338,29 @@ a{color:inherit}
 .quote .again{pointer-events:none;margin-top:22px;background:rgba(13,19,25,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .stage.outro .quote .again{pointer-events:auto}
 @media (max-width:899px){ .stage.outro{height:100svh} .quote .again{margin-top:14px;font-size:14px;padding:7px 14px} }
+
+/* ---- fotos de archivo ---- */
+.ph{margin:0 -4px;display:flex;flex-direction:column;gap:6px}
+.ph img{display:block;width:100%;max-height:230px;object-fit:cover;border-radius:7px;border:1px solid var(--rule);filter:sepia(.18) contrast(1.03);background:var(--panel-2)}
+.ph figcaption{font-size:12px;color:var(--ink-3)}
+.ph figcaption a{color:var(--ink-2)}
+/* ---- personajes ---- */
+.ppl .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.pchip{display:inline-flex;align-items:center;gap:8px;background:var(--panel-2);border:1px solid var(--rule);border-radius:999px;padding:3px 12px 3px 3px;font-size:14px;transition:border-color .2s}
+.pchip:hover{border-color:var(--pc)}
+.av{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11.5px;font-weight:700;color:#0d1319;background:var(--pc) center/cover no-repeat;box-shadow:0 0 0 2px var(--panel-2),0 0 0 3.5px var(--pc)}
+.av.img{color:transparent}
+.pbox header{align-items:center}
+.pphoto{width:84px;height:84px;border-radius:50%;flex:none;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:28px;color:#0d1319;background:var(--pc) center/cover no-repeat;box-shadow:0 0 0 3px var(--panel),0 0 0 5px var(--pc)}
+.pphoto.img{color:transparent}
+.pbody{display:flex;flex-direction:column;gap:14px;padding-top:14px!important}
+.prole{margin:0;font-size:17px;line-height:1.5}
+.pextract{margin:0;font-size:14.5px;color:var(--ink-2);line-height:1.5;border-left:3px solid var(--rule);padding-left:12px}
+.pextract:empty{display:none}
+.pmeta{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13.5px;color:var(--ink-3)}
+.pmeta a{color:var(--gold)}
+/* ---- escala de víctimas ---- */
+:root{--q1:#5e3236;--q2:#80353a;--q3:#97363a;--q4:#c04441;--q5:#e2604e;--q6:#ff8a66}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}
 }
@@ -373,6 +406,17 @@ a{color:inherit}
     <div class="body" id="chBody"></div>
   </div>
 </div>
+<div class="sheet" id="pSheet" hidden role="dialog" aria-modal="true" aria-labelledby="pName">
+  <div class="box pbox">
+    <header><span class="pphoto" id="pPhoto" aria-hidden="true"></span><div><h2 id="pName"></h2><p id="pYears"></p></div><button type="button" class="x" data-close aria-label="Cerrar"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></header>
+    <div class="body pbody">
+      <p class="prole" id="pRole"></p>
+      <p class="pextract" id="pExtract"></p>
+      <div class="pmeta"><a id="pWiki" href="#" target="_blank" rel="noopener">Leer más en Wikipedia ↗</a><span id="pCredit" hidden>Foto: Wikimedia Commons</span></div>
+      <section class="grp"><h3>Aparece en</h3><div class="chlist" id="pIn"></div></section>
+    </div>
+  </div>
+</div>
 <div class="sheet" id="srcSheet" hidden role="dialog" aria-modal="true" aria-labelledby="srcTitle">
   <div class="box">
     <header><div><h2 id="srcTitle">Fuentes</h2><p id="srcSub"></p></div><button type="button" class="x" data-close aria-label="Cerrar"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></header>
@@ -390,6 +434,32 @@ const MUN={"type":"FeatureCollection","features":[{"type":"Feature","id":"18753"
 <script>
 /* ================= FUENTES ================= */
 const S = {
+  quesada:["Banrep · Gonzalo Jiménez de Quesada","https://enciclopedia.banrepcultural.org/index.php/Gonzalo_Jim%C3%A9nez_de_Quesada"],
+  benkos:["Banrep · Benkos Biohó","https://enciclopedia.banrepcultural.org/index.php?title=Benkos_Bioh%C3%B3"],
+  galan:["Banrep · José Antonio Galán","https://enciclopedia.banrepcultural.org/index.php?title=Jos%C3%A9_Antonio_Gal%C3%A1n"],
+  sup:["Señal Memoria · La guerra que inició la Iglesia","https://www.senalmemoria.co/articulos/guerra-que-inicio-la-iglesia"],
+  sup2:["UIS · Rebeliones en la provincia: la guerra de los Supremos","https://noesis.uis.edu.co/bitstreams/2803089c-1f72-477c-9eeb-68064b28ef0d/download"],
+  melo:["Credencial Historia 392 · El movimiento del 17 de abril de 1854","https://www.banrepcultural.org/biblioteca-virtual/credencial-historia/numero-392/el-movimiento-del-17-de-abril-de-1854-artesanos-e"],
+  melo2:["Señal Memoria · La guerra civil de 1854","https://www.senalmemoria.co/articulos/guerra-civil-1854-arremetida-artesanos"],
+  esc:["Señal Memoria · La guerra por la educación en Colombia","https://www.senalmemoria.co/articulos/la-guerra-por-la-educacion-en-colombia"],
+  esc2:["Revista Diversitas · La guerra de las escuelas (1876)","http://www.scielo.org.co/scielo.php?script=sci_arttext&pid=S1657-92672014000500028"],
+  estatuto:["Comisión de la Verdad · El Estatuto de Seguridad","https://www.comisiondelaverdad.co/el-estatuto-de-seguridad"],
+  m19:["Comisión de la Verdad · El espejismo de la revolución","https://www.comisiondelaverdad.co/el-espejismo-de-la-revolucion"],
+  sucia:["Comisión de la Verdad · La guerra sucia","https://www.comisiondelaverdad.co/la-guerra-sucia"],
+  canc:["Cancillería · Frontera terrestre Colombia–Venezuela","https://www.cancilleria.gov.co/politica-exterior/asuntos-bilaterales/frontera-terrestre-colombia-venezuela"],
+  orion:["Hacemos Memoria · ¿Qué tienen que ver la Operación Orión y La Escombrera?","https://hacemosmemoria.org/2025/10/16/que-tienen-que-ver-la-operacion-orion-y-la-escombrera/"],
+  orion2:["El Espectador · Operación Orión: 20 años de impunidad","https://www.elespectador.com/colombia-20/paz-y-memoria/operacion-orion-en-comuna-13-de-medellin-20-anos-de-impunidad-y-falta-de-verdad/"],
+  aro:["Corte IDH · Caso Masacres de Ituango vs. Colombia","https://biblioteca.corteidh.or.cr/documento/65133"],
+  aro2:["Unidad para las Víctimas · 25 años de la masacre de El Aro","https://www.unidadvictimas.gov.co/especiales/ElAro/index.html"],
+  machuca:["CERAC · Dossier masacre de Machuca","https://www.cerac.org.co/assets/pdf/Machuca%20dossier.pdf"],
+  machuca2:["El Colombiano · 20 años de la masacre de Machuca","https://www.elcolombiano.com/antioquia/masacre-de-machuca-segovia-por-parte-del-eln-cumple-20-anos-XY9515880"],
+  ley:["Función Pública · Ley 1448 de 2011","https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=43043"],
+  ley2:["Dejusticia · ABC de la Ley de Víctimas","https://www.dejusticia.org/abc-del-pasado-presente-y-futuro-de-la-ley-de-victimas/"],
+  paro13:["Redalyc · La rebelión de las ruanas: el paro nacional agrario","https://www.redalyc.org/journal/5155/515557538005/html/"],
+  paro13b:["Diario Libre · Santos ofrece disculpas por haber negado el paro agrario","https://www.diariolibre.com/actualidad/santos-ofrece-disculpas-a-campesinos-por-haber-negado-el-paro-agrario-de-2013-KKDL646491"],
+  el4:["Infobae · En qué departamentos ganó y perdió De la Espriella","https://www.infobae.com/colombia/2026/06/22/asi-votaron-en-los-departamentos-de-colombia-en-cuales-gano-y-perdio-abelardo-de-la-espriella-presidente-electo/"],
+  el5:["El Tiempo · Mapa electoral de la segunda vuelta por departamentos","https://www.eltiempo.com/politica/elecciones-colombia-2026/mapa-electoral-de-la-segunda-vuelta-presidencial-en-que-departamentos-ganaron-abelardo-de-la-espriella-e-ivan-cepeda-3565947"],
+  minsalud:["Minsalud · Sala situacional de la población víctima (2018)","https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/DE/PS/sala-situacional-victimas-junio-2018.pdf"],
   gc19:["Banrep · Las guerras civiles en Colombia durante el siglo XIX","https://enciclopedia.banrepcultural.org/index.php/Las_guerras_civiles_en_Colombia_durante_el_siglo_XIX"],
   mil:["Banrep · La guerra de los Mil Días","https://enciclopedia.banrepcultural.org/index.php/La_guerra_de_los_mil_d%C3%ADas"],
   mil2:["Credencial Historia 121 · Reflexiones sobre la guerra de los Mil Días","https://www.banrepcultural.org/biblioteca-virtual/credencial-historia-no-121/reflexiones-sobre-la-guerra-de-los-mil-dias"],
@@ -473,7 +543,7 @@ const V = {
   col:[[-80,-4.6],[-66.4,12.9]], andes:[[-80.2,-1.2],[-68.4,12.3]], caribe:[[-78.5,7.6],[-68.5,13.2]],
   centro:[[-75.2,3.9],[-71.2,7.3]], llanos:[[-75.4,3.9],[-68.6,8.1]], gran:[[-84,-5.8],[-59.5,13.2]], panama:[[-84.2,4.5],[-73.5,11.6]],
   sur:[[-80.5,-5.6],[-66,5.5]], sa:[[-85.5,8.8],[-73.5,15.2]], bananas:[[-76.2,9.6],[-72.6,11.8]], norte:[[-78,5.8],[-71,11.8]],
-  cag:[[-76.4,0.6],[-71.4,4.6]], outro:[[-87,-4.6],[-66.4,12.9]], region:[[-86.5,-6],[-60,15.5]], bogo:[[-76.6,3.2],[-71.6,6.3]]
+  cag:[[-76.4,0.6],[-71.4,4.6]], outro:[[-87,-4.6],[-66.4,12.9]], ant:[[-76.9,5.7],[-73.6,8.3]], med:[[-76.2,5.85],[-75.0,6.75]], region:[[-86.5,-6],[-60,15.5]], bogo:[[-76.6,3.2],[-71.6,6.3]]
 };
 const GC = ["170","862","218","591"];
 
@@ -484,8 +554,10 @@ const C = [
  h:"Antes: cientos de pueblos",
  t:"Muiscas en el altiplano, taironas en la Sierra Nevada, zenúes en el Sinú, quimbayas en el Cauca, pijaos en la cordillera.",
  mk:[{p:[-73.95,5.2],k:"ppl",l:"Muiscas"},{p:[-73.8,10.85],k:"ppl",l:"Taironas"},{p:[-75.8,8.7],k:"ppl",l:"Zenúes"},{p:[-75.75,4.55],k:"ppl",l:"Quimbayas",a:"l"},{p:[-75.3,3.4],k:"ppl",l:"Pijaos",a:"l"},{p:[-72.3,11.5],k:"ppl",l:"Wayuu"},{p:[-76.3,2.3],k:"ppl",l:"Nasa",a:"l"},{p:[-71.2,-0.8],k:"ppl",l:"Pueblos amazónicos"},{p:[-77.2,6.2],k:"ppl",l:"Emberá",a:"l"}],
- next:"La llegada de Castilla los vuelve el primer bando perdedor."},
+ next:"La llegada de Castilla los vuelve el primer bando perdedor.",
+ src:[S.quesada]},
 {era:"col", y:1499, y2:1550, v:"andes", terr:{ghost:["170"]},
+ pp:["quesada"],
  h:"La Conquista",
  t:"Tres expediciones buscan El Dorado desde el Caribe, Quito y Venezuela. En 1539 se encuentran en la sabana de Bogotá.",
  rt:[{c:"--real",d:0,pts:[[-74.2,11.24],[-73.81,8.86],[-73.85,7.07],[-73.67,6.01],[-74.07,4.71]]},
@@ -494,18 +566,23 @@ const C = [
  mk:[{p:[-74.2,11.24],k:"city",l:"Jiménez de Quesada",s:"Santa Marta, 1536"},{p:[-78.47,-.18],k:"city",l:"Belalcázar",s:"Quito, 1535"},{p:[-69.67,11.4],k:"city",l:"Federmán",s:"Coro, 1537",a:"l"},{p:[-74.07,4.71],k:"ev",c:"--gold",l:"Santafé de Bogotá",s:"1538–1539",d:2.6}],
  sides:[{n:"Corona de Castilla",w:"Conquistadores",r:"g",c:"--real"},{n:"Pueblos indígenas",w:"Muiscas, taironas, zenúes…",r:"p",c:"--gold"}],
  price:"Los pueblos indígenas: epidemias, guerra y encomienda provocan un derrumbe de su población.",
- next:"1550: nace el Nuevo Reino de Granada. Tres siglos de colonia."},
+ next:"1550: nace el Nuevo Reino de Granada. Tres siglos de colonia.",
+ src:[S.quesada]},
 {era:"col", y:1599, y2:1781, v:"caribe", terr:{ghost:["170"]}, tl:{p:[-73.4,8.4],l:"Nuevo Reino de Granada"},
+ pp:["benkos","galan"],
  h:"Esclavitud, cimarrones y comuneros",
  t:"Cartagena fue uno de los grandes puertos de trata de América. Benkos Biohó fundó un palenque libre. En 1781, los comuneros del Socorro se rebelan contra los impuestos.",
  rt:[{c:"--lose",d:0,dur:2.2,pts:[[-60,13.8],[-66,12.4],[-71,11.6],[-75.51,10.39]]}],
  mk:[{p:P.ctg,k:"ev",c:"--lose",l:"Cartagena",s:"puerto negrero",a:"l",d:2},{p:[-75.2,10.1],k:"ev",c:"--gold",l:"San Basilio de Palenque",s:"libre desde c. 1713",a:"b",d:2.6},{p:P.soc,k:"ev",c:"--fa",l:"El Socorro",s:"comuneros, 1781",d:3}],
  sides:[{n:"Esclavizados y comuneros",w:"Benkos Biohó, José Antonio Galán",r:"p",c:"--gold"},{n:"Corona española",w:"Gobernación de Cartagena, virreinato",r:"g",c:"--real"}],
  price:"Benkos, ahorcado en 1621; Galán, descuartizado en 1782. La esclavitud duró hasta 1852.",
- next:"El virreinato llega a 1810 dividido y con deudas de rabia."},
+ next:"El virreinato llega a 1810 dividido y con deudas de rabia.",
+ src:[S.benkos, S.galan]},
 
 /* ================= 1810 → ================= */
 {era:"ind", y:1810, y2:1811, v:"col", terr:{col:GC}, tl:{p:[-71.2,2.4],l:"Virreinato"},
+ img:"Florero_de_Llorente",
+ pp:["torres","narino"],
  h:"El año de las juntas",
  t:"Napoleón invade España y el rey queda preso. Las ciudades del virreinato forman juntas de gobierno propias. El 20 de julio le toca a Santafé.",
  ev:[{d:"22 may 1810",l:"Cartagena",t:"El cabildo de Cartagena instala una junta que limita al gobernador español.",p:P.ctg},
@@ -519,6 +596,7 @@ const C = [
  next:"Cada provincia quiere mandar sobre sí misma.",
  src:[S.jul20]},
 {era:"ind", y:1811, y2:1815, v:"col", terr:{col:GC}, tl:{p:[-71.2,2.4],l:"Patria Boba"},
+ pp:["narino","torres","bolivar"],
  h:"La Patria Boba",
  t:"Los patriotas se dividen en dos bloques armados, mientras Santa Marta, Popayán y Pasto siguen fieles al rey.",
  ev:[{d:"1811",l:"Cundinamarca",t:"Antonio Nariño gobierna el Estado de Cundinamarca y defiende un gobierno central.",p:P.bog,a:"l",c:"--fa"},
@@ -532,6 +610,8 @@ const C = [
  next:"Centralismo contra federalismo será la pelea de todo el siglo XIX.",
  src:[S.indep, S.gc19]},
 {era:"ind", y:1815, y2:1819, v:"col", terr:{col:GC}, tl:{p:[-71.2,2.4],l:"Reconquista"},
+ img:"Policarpa_Salavarrieta",
+ pp:["morillo","torres","pola"],
  h:"La Reconquista y el Régimen del Terror",
  t:"España envía la Expedición Pacificadora de Pablo Morillo, con más de 10.000 soldados. Sitia Cartagena, sube por el Magdalena y fusila a la dirigencia patriota.",
  rt:[{c:"--real",d:.4,pts:[[-66.5,13.2],[-72,12],[-74.2,11.24],[-75.51,10.39]]},{c:"--real",d:2.2,pts:[[-75.51,10.39],[-74.43,9.24],[-73.35,8.24],[-73.6,6.5],[-74.07,4.71]]}],
@@ -545,6 +625,8 @@ const C = [
  next:"Los sobrevivientes se refugian en los Llanos.",
  src:[S.indep]},
 {era:"ind", y:1819, v:"llanos", terr:{col:GC},
+ img:"Batalla_de_Boyacá",
+ pp:["bolivar","santander"],
  h:"La Campaña Libertadora",
  t:"Bolívar sale de Venezuela, se une a Santander en Casanare, cruza el páramo de Pisba y derrota al ejército realista en menos de tres meses.",
  rt:[{c:"--gold",d:0,dur:3.8,pts:[[-69.14,7.56],[-70.5,6.9],[-71.73,6.46],[-71.99,5.72],[-72.42,5.62],[-72.48,5.72],[-72.69,5.99],[-73.07,5.78],[-73.36,5.54],[-73.41,5.45],[-74.07,4.71]]}],
@@ -559,6 +641,8 @@ const C = [
  next:"Nace la República de Colombia.",
  src:[S.indep]},
 {era:"ind", y:1819, y2:1826, v:"gran", terr:{col:GC}, tl:{p:[-70.5,3.2],l:"Gran Colombia"},
+ img:"Gran_Colombia",
+ pp:["bolivar","santander","sucre","agualongo"],
  h:"La Gran Colombia",
  t:"Un solo país con lo que hoy son Colombia, Venezuela, Ecuador y Panamá. Bolívar sigue la guerra hacia el sur y Santander gobierna desde Bogotá.",
  ev:[{d:"17 dic 1819",l:"Angostura",t:"El Congreso de Angostura crea la República de Colombia.",p:[-63.55,8.12]},
@@ -573,6 +657,7 @@ const C = [
  next:"Demasiado grande, pobre y mal comunicada para durar.",
  src:[S.indep]},
 {era:"ind", y:1826, y2:1831, v:"gran", terr:{col:["170","591"], lost:["862","218"]}, tl:{p:[-73.6,2.6],l:"Nueva Granada"},
+ pp:["bolivar","santander","sucre"],
  h:"Se rompe la Gran Colombia",
  t:"Bolivarianos contra santanderistas, y caudillos regionales contra Bogotá. En 1830 Venezuela y Ecuador se van. Queda la Nueva Granada, con Panamá.",
  ev:[{d:"1826",l:"La Cosiata",t:"José Antonio Páez se rebela en Venezuela contra el gobierno de Bogotá.",p:[-68.0,10.16]},
@@ -587,6 +672,7 @@ const C = [
  next:"De estos dos bandos saldrán los futuros partidos.",
  src:[S.indep]},
 {era:"civ", y:1839, y2:1842, v:"col", terr:{col:["170","591"]}, tl:{p:[-71.2,2.4],l:"Nueva Granada"},
+ pp:["obando","mosquera"],
  h:"La guerra de los Supremos",
  t:"El cierre de cuatro conventos en Pasto desata la primera guerra civil de la república. Jefes regionales se proclaman «supremos» de sus provincias.",
  ev:[{d:"1839",l:"Pasto",t:"Levantamiento por el cierre de conventos; José María Obando lo encabeza en el sur.",p:P.pas,a:"l",c:"--lose"},
@@ -597,9 +683,10 @@ const C = [
  sides:[{n:"Gobierno («ministeriales»)",w:"José Ignacio de Márquez, Herrán, Mosquera",r:"g",c:"--con"},{n:"Los Supremos",w:"Obando y caudillos regionales",r:"p",c:"--lib"}],
  price:"Las provincias, arrasadas por reclutamientos forzosos y saqueos.",
  next:"Ministeriales y progresistas se convierten en partidos.",
- src:[S.gc19]},
+ src:[S.sup, S.sup2, S.gc19]},
 {era:"civ", y:1848, y2:1851, v:"col", terr:{col:["170","591"]},
  lay:hl(["19","76","52","27","05"],"--con","Rebelión conservadora de 1851 (aprox.)","Dónde se alzaron los esclavistas","Departamentos actuales como referencia"),
+ pp:["lopez"],
  h:"Nacen los partidos y cae la esclavitud",
  t:"Liberales y conservadores publican sus programas. El gobierno liberal de José Hilario López abole la esclavitud y los esclavistas del Cauca y Antioquia se alzan.",
  ev:[{d:"16 jul 1848",l:"Programa liberal",t:"Ezequiel Rojas publica el programa del Partido Liberal.",p:P.bog,c:"--lib",a:"l"},
@@ -613,6 +700,7 @@ const C = [
  next:"Las reformas liberales dividen al propio liberalismo.",
  src:[S.gc19]},
 {era:"civ", y:1854, v:"col", terr:{col:["170","591"]},
+ pp:["melo","obando"],
  h:"El golpe de Melo",
  t:"Los artesanos, arruinados por la rebaja de aranceles, se alían con el general José María Melo, que da un golpe de Estado. Las élites de los dos partidos se unen para derrocarlo.",
  ev:[{d:"17 abr 1854",l:"Golpe",t:"Melo disuelve el Congreso y asume el poder con apoyo de artesanos y liberales «draconianos».",p:P.bog,c:"--fb",a:"l"},
@@ -621,11 +709,12 @@ const C = [
  sides:[{n:"Artesanos y Melo",w:"Sociedades democráticas",r:"p",c:"--fb"},{n:"Alianza de élites",w:"López, Herrán, Mosquera",r:"g",c:"--con"}],
  price:"Los artesanos. Melo murió fusilado años después en México.",
  next:"El único gobierno de base artesana del siglo XIX.",
- src:[S.gc19]},
+ src:[S.melo, S.melo2]},
 {era:"civ", y:1860, y2:1863, v:"col", terr:{col:["170","591"]},
  lay:{title:"Estados en 1860", note:"Límites aproximados sobre departamentos actuales",
       m:groups({lib:[...ST.cau,...ST.bol], con:[...ST.ant,...ST.boy,...ST.cun,...ST.mag,...ST.san,...ST.tol]}),
       keys:{lib:{c:"--lib",l:"Estados alzados con Mosquera (Cauca, Bolívar)"}, con:{c:"--con",l:"Gobierno de la Confederación"}}},
+ pp:["mosquera"],
  h:"La revolución de Mosquera",
  t:"Tomás Cipriano de Mosquera, presidente del Estado del Cauca, se rebela contra el gobierno conservador de Mariano Ospina Rodríguez y lo derrota.",
  ev:[{d:"may 1860",l:"Cauca",t:"El Cauca se declara separado de la Confederación Granadina.",p:P.pop,c:"--lib",a:"l"},
@@ -637,6 +726,7 @@ const C = [
  next:"Nacen los Estados Unidos de Colombia.",
  src:[S.gc19, S.sogeo]},
 {era:"civ", y:1863, y2:1886, v:"col", terr:{col:["170","591"]}, lay:LAY_STATES("Los 9 estados soberanos","Límites aproximados sobre departamentos actuales"),
+ img:"Estados_Unidos_de_Colombia",
  h:"Los Estados Unidos de Colombia",
  t:"Nueve estados soberanos, cada uno con constitución, presidente, congreso y ejército propios. El gobierno central casi no manda. Hay libertad de prensa, de culto y de comercio de armas, y abundan las guerras locales.",
  mk:[{p:P.rio,k:"ev",c:"--gold",l:"Rionegro",s:"Constitución de 1863"}],
@@ -657,8 +747,10 @@ const C = [
  sides:[{n:"Gobierno radical",w:"Aquileo Parra, Julián Trujillo",r:"g",c:"--lib"},{n:"Conservadores y clero",w:"Antioquia, Tolima, obispos",r:"p",c:"--con"}],
  price:"Varios obispos, expulsados; los reclutas campesinos, muertos de ambos lados.",
  next:"El triunfo radical abre la puerta a su propia crisis.",
- src:[S.gc19]},
+ src:[S.esc, S.esc2, S.gc19]},
 {era:"civ", y:1885, y2:1886, v:"col", terr:{col:["170","591"]}, lay:LAY_STATES("De estados a departamentos","Desde 1886 los 9 estados pasan a ser departamentos"),
+ img:"Regeneración_(Colombia)",
+ pp:["nunez"],
  h:"La Regeneración",
  t:"Rafael Núñez, liberal independiente, gobierna con los conservadores. Los radicales se alzan en 1885 y pierden. Núñez entierra la Constitución federal.",
  ev:[{d:"31 mar 1885",l:"Colón",t:"Colón arde durante la rebelión de Pedro Prestán. Desembarcan marines de EE. UU.",p:P.colon,c:"--lose",a:"t"},
@@ -672,6 +764,8 @@ const C = [
  src:[S.gc19, S.reg]},
 {era:"civ", y:1899, y2:1902, v:"col", terr:{col:["170","591"]}, tl:{p:[-71.2,2.2],l:"República de Colombia"},
  lay:hl(["68","54","73","41"],"--lib","Principales frentes","Dónde se peleó","Santander, Tolima, la Costa y Panamá"),
+ img:"Guerra_de_los_Mil_Días",
+ pp:["uribeuribe","herrera","marroquin"],
  h:"La guerra de los Mil Días",
  t:"Crisis del café, fraude y exclusión. Los liberales se lanzan a la guerra contra el gobierno conservador. Tras Palonegro, la guerra se vuelve de guerrillas.",
  ev:[{d:"17 oct 1899",l:"Santander",t:"Comienza el alzamiento liberal en Santander.",p:[-73.12,7.12],c:"--lib"},
@@ -686,6 +780,8 @@ const C = [
  next:"Colombia sale de la guerra sin fuerzas para defender el istmo.",
  src:[S.mil, S.mil2]},
 {era:"ter", y:1903, v:"panama", terr:{col:["170"], lost:["591"]},
+ img:"Separación_de_Panamá_de_Colombia",
+ pp:["marroquin"],
  h:"Panamá se separa",
  t:"El Senado rechaza el tratado Herrán-Hay para el canal. Panamá, abandonada durante la guerra, declara su independencia con apoyo de EE. UU.",
  ev:[{d:"12 ago 1903",l:"Senado",t:"El Senado colombiano rechaza el tratado Herrán-Hay por considerarlo lesivo a la soberanía.",nl:1},
@@ -700,15 +796,18 @@ const C = [
  src:[S.pan, S.pan2]},
 {era:"ter", y:1907, y2:1952, v:"region", terr:{col:["170"]},
  h:"El mapa se cierra",
- t:"Después de Panamá, las fronteras se definen en tratados. Colombia gana la salida al Amazonas, pero renuncia a otros reclamos.",
+ t:"Después de Panamá, las fronteras se definen en tratados. Colombia gana la salida al Amazonas, pero renuncia a otros reclamos. En 1941 cierra la frontera con Venezuela.",
  ev:[{d:"1907",l:"Brasil",t:"Tratado Vásquez Cobo–Martins: primer trazado de la frontera amazónica. Colombia renuncia a buena parte de lo que reclamaba.",p:[-69.4,0.8],c:"--lose"},
      {d:"1916",l:"Ecuador",t:"Tratado Muñoz Vernaza–Suárez: la frontera se fija en los ríos San Miguel y Putumayo.",p:[-76.8,0.2],c:"--lose",a:"l"},
      {d:"1922",l:"Perú",t:"Tratado Salomón–Lozano: Colombia gana el Trapecio Amazónico con Leticia y reconoce al Perú lo que está al sur del Putumayo.",p:[-70.2,-3.2],c:"--gold"},
      {d:"1928",l:"Nicaragua",t:"Tratado Esguerra–Bárcenas: Colombia conserva San Andrés y Providencia y reconoce a Nicaragua la Costa de Mosquitos.",p:[-81.7,12.58],c:"--gold",a:"l"},
+     {d:"5 abr 1941",l:"Venezuela",t:"Tratado López de Mesa–Gil Borges, firmado en Villa del Rosario: cierra 60 años de discusiones y fija los 2.219 km de frontera terrestre.",p:[-72.47,7.83],c:"--gold",a:"l"},
      {d:"1952",l:"Los Monjes",t:"Una nota del canciller Juan Uribe Holguín reconoce a Venezuela los islotes de Los Monjes.",p:[-70.9,12.36],c:"--lose"}],
  next:"El Trapecio Amazónico llevará a una guerra en 1932.",
- src:[S.icj, S.leti2]},
+ src:[S.canc, S.icj, S.leti2]},
 {era:"vio", y:1928, v:"bananas", terr:{col:["170"]}, dout:1,
+ img:"Masacre_de_las_bananeras",
+ pp:["gaitan"],
  h:"La masacre de las bananeras",
  t:"Más de 25.000 trabajadores de las plantaciones de la United Fruit Company van a la huelga: piden contrato directo, pago en dinero y descanso dominical. El Ejército dispara en Ciénaga.",
  ev:[{d:"nov 1928",l:"Huelga",t:"La mayor huelga del país hasta entonces paraliza la zona bananera.",p:[-74.1,10.7],c:"--fa"},
@@ -722,6 +821,7 @@ const C = [
  next:"García Márquez, nacido en Aracataca, la contó en Cien años de soledad.",
  src:[S.ban, S.ban2]},
 {era:"ter", y:1932, y2:1934, v:"sur", terr:{col:["170"]},
+ img:"Guerra_colombo-peruana",
  h:"Guerra con el Perú",
  t:"Civiles y militares peruanos toman Leticia. Colombia manda una flotilla por el Atlántico y el Amazonas. La Sociedad de Naciones media.",
  ev:[{d:"1 sep 1932",l:"Leticia",t:"Un grupo peruano toma el puerto de Leticia.",p:P.leti,c:"--lose",a:"l"},
@@ -735,6 +835,7 @@ const C = [
  next:"Mientras tanto, los liberales gobiernan en Bogotá.",
  src:[S.leti, S.leti2]},
 {era:"vio", y:1930, y2:1946, v:"col", terr:{col:["170"]}, dout:1,
+ pp:["gaitan","ospina"],
  h:"La República Liberal",
  t:"Dieciséis años de gobiernos liberales. Alfonso López Pumarejo lanza la «Revolución en Marcha»: reforma constitucional, función social de la propiedad y derecho de huelga.",
  ev:[{d:"1930",l:"Olaya Herrera",t:"Primer presidente liberal en 44 años.",p:P.bog,c:"--lib",a:"l"},
@@ -746,6 +847,8 @@ const C = [
  next:"Gaitán se vuelve el líder de masas del país.",
  src:[S.lopez, S.bn]},
 {era:"vio", y:1948, yl:"9 abr 1948", v:"bogo", terr:{col:["170"]}, dout:1,
+ img:"Bogotazo",
+ pp:["gaitan","ospina"],
  h:"El Bogotazo",
  t:"A la 1:05 de la tarde, Jorge Eliécer Gaitán, jefe liberal y favorito para 1950, es asesinado en la carrera Séptima. Bogotá arde durante horas.",
  ev:[{d:"1:05 p. m.",l:"Carrera Séptima",t:"Juan Roa Sierra dispara contra Gaitán. La multitud lo lincha.",p:P.bog,c:"--lib",a:"l"},
@@ -760,6 +863,8 @@ const C = [
  src:[S.bog]},
 {era:"vio", y:1946, y2:1958, v:"col", terr:{col:["170"]}, dout:1,
  lay:hl(["73","76","17","66","63","15","68","54","05","85","50","41"],"--lose","Zonas más golpeadas","La Violencia por regiones","Síntesis de la historiografía; departamentos actuales"),
+ img:"La_Violencia",
+ pp:["laureano","ospina","rojas","salcedo"],
  h:"La Violencia",
  t:"Liberales y conservadores se matan en los campos durante una década. Policía «chulavita» y «pájaros» contra guerrillas liberales. El Congreso se cierra, hay golpe militar y al final un pacto.",
  ev:[{d:"9 nov 1949",l:"Cierre del Congreso",t:"Ospina Pérez cierra el Congreso y declara el estado de sitio. Laureano Gómez gana sin rival.",p:P.bog,c:"--con",a:"l"},
@@ -775,6 +880,8 @@ const C = [
  next:"Los dos partidos se reparten el poder.",
  src:[S.fn, S.basta]},
 {era:"vio", y:1958, y2:1974, v:"col", terr:{col:["170"]}, dout:1,
+ img:"Frente_Nacional_(Colombia)",
+ pp:["laureano","rojas"],
  h:"El Frente Nacional",
  t:"Liberales y conservadores se turnan la presidencia y se reparten el Estado por mitades durante 16 años. Cualquier otro partido queda por fuera.",
  special:"frente",
@@ -785,6 +892,8 @@ const C = [
  next:"Del reclamo de fraude de 1970 nacerá el M-19.",
  src:[S.fn]},
 {era:"arm", y:1964, y2:1974, v:"col", terr:{col:["170"]}, dout:1,
+ img:"Fuerzas_Armadas_Revolucionarias_de_Colombia",
+ pp:["marulanda","camilo"],
  h:"Nacen las guerrillas",
  t:"El Ejército ataca Marquetalia, un enclave de autodefensas campesinas comunistas, y de allí nacen las FARC. Con la Revolución cubana como referencia surgen el ELN, el EPL y el M-19.",
  ev:[{d:"may 1964",l:"Marquetalia",t:"Operación militar contra el enclave de Manuel Marulanda. Nacen las FARC.",p:[-75.65,3.2],k:"bat",c:"--lose",a:"l"},
@@ -797,6 +906,7 @@ const C = [
  next:"Los años setenta endurecen al Estado.",
  src:[S.basta]},
 {era:"arm", y:1978, y2:1984, v:"col", terr:{col:["170"]}, dout:1,
+ pp:["turbay"],
  h:"Estatuto de Seguridad y primeras treguas",
  t:"El gobierno de Julio César Turbay responde a la guerrilla con tribunales militares y detenciones masivas. El narcotráfico crea sus propios ejércitos. Belisario Betancur ensaya la paz.",
  ev:[{d:"6 sep 1978",l:"Estatuto de Seguridad",t:"Decreto que amplía el poder militar sobre civiles. Denuncias de torturas.",p:P.bog,c:"--con",a:"l"},
@@ -807,8 +917,10 @@ const C = [
  sides:[{n:"Estado",w:"Julio César Turbay, luego Belisario Betancur",r:"o",c:"--con"},{n:"Guerrillas",w:"M-19, FARC, ELN, EPL",r:"o",c:"--lose"}],
  price:"Presos políticos torturados y, pronto, las víctimas de los primeros grupos paramilitares.",
  next:"El narcotráfico declara la guerra al Estado.",
- src:[S.basta, S.cev]},
+ src:[S.estatuto, S.m19]},
 {era:"arm", y:1985, yl:"6–7 nov 1985", v:"bogo", terr:{col:["170"]}, dout:1,
+ img:"Toma_del_Palacio_de_Justicia",
+ pp:["escobar"],
  h:"Toma y retoma del Palacio de Justicia",
  t:"Un comando del M-19 se toma el Palacio de Justicia en la plaza de Bolívar para «juzgar» al presidente Betancur. El Ejército lo retoma con tanques. En 28 horas el edificio arde.",
  ev:[{d:"6 nov, mañana",l:"Toma",t:"35 guerrilleros del M-19 entran al Palacio y toman cientos de rehenes.",p:P.bog,c:"--lose",a:"l"},
@@ -821,6 +933,8 @@ const C = [
  next:"Una semana después, la avalancha de Armero entierra otra tragedia.",
  src:[S.pal, S.pal2]},
 {era:"arm", y:1984, y2:1993, v:"col", terr:{col:["170"]}, dout:1,
+ img:"Cartel_de_Medellín",
+ pp:["escobar","galan2"],
  h:"Narcos contra el Estado",
  t:"Pablo Escobar y «Los Extraditables» responden a la extradición a EE. UU. con magnicidios y bombas: «preferimos una tumba en Colombia a una cárcel en Estados Unidos».",
  ev:[{d:"30 abr 1984",l:"Lara Bonilla",t:"Asesinan al ministro de Justicia Rodrigo Lara Bonilla.",p:P.bog,c:"--lose",a:"l"},
@@ -834,8 +948,10 @@ const C = [
  sides:[{n:"Cartel de Medellín",w:"Pablo Escobar, Gonzalo Rodríguez Gacha",r:"p",c:"--lose"},{n:"Estado y aliados",w:"Policía, DEA, Cartel de Cali, «Pepes»",r:"g",c:"--con"}],
  price:"Jueces, periodistas, policías y civiles. El narcotráfico no se acabó: cambió de manos.",
  next:"El dinero de la coca pasa a financiar a guerrillas y paramilitares.",
- src:[S.cev, S.basta]},
+ src:[S.sucia, S.pal2, S.basta]},
 {era:"arm", y:1985, y2:2002, v:"col", terr:{col:["170"]}, dout:1,
+ img:"Unión_Patriótica_(Colombia)",
+ pp:["pardo","mcepeda","castano"],
  h:"El exterminio de la Unión Patriótica",
  t:"De la tregua de La Uribe nace la Unión Patriótica (UP), un partido legal de izquierda. En sus primeras elecciones gana concejos, alcaldías y bancas en el Congreso. Luego sus militantes son asesinados uno a uno.",
  ev:[{d:"1986",l:"Elecciones",t:"La UP elige congresistas y cientos de concejales.",p:P.uribe,c:"--fa"},
@@ -850,6 +966,8 @@ const C = [
  next:"Treinta años después, el hijo de Manuel Cepeda llega a la segunda vuelta presidencial.",
  src:[S.up, S.up2, S.seg]},
 {era:"arm", y:1990, y2:1991, v:"col", terr:{col:["170"]}, dout:1,
+ img:"Constitución_Política_de_Colombia_de_1991",
+ pp:["pizarro","petro"],
  h:"Paz con el M-19 y Constitución de 1991",
  t:"El M-19, el EPL y el Quintín Lame dejan las armas. Un movimiento estudiantil impulsa una Asamblea Constituyente, con exguerrilleros e indígenas, que escribe una nueva Constitución.",
  ev:[{d:"9 mar 1990",l:"Santo Domingo",t:"El M-19 firma la paz y entrega las armas en Santo Domingo (Cauca).",p:[-76.3,2.95],c:"--gold",a:"l"},
@@ -863,6 +981,8 @@ const C = [
  next:"Las FARC y el ELN quedan por fuera, y crecen.",
  src:[S.basta, S.cev]},
 {era:"arm", y:1994, y2:2002, v:"col", terr:{col:["170"]}, dout:1,
+ img:"Masacre_de_Bojayá",
+ pp:["castano","marulanda"],
  h:"La guerra se desborda",
  t:"Las FARC dan golpes con cientos de hombres. Los paramilitares se unen en las AUC y se expanden a punta de masacres. Es la década con más muertos del conflicto.",
  ev:[{d:"30 ago 1996",l:"Las Delicias",t:"Las FARC toman una base militar en Putumayo y se llevan a decenas de soldados.",p:[-75.8,0.35],k:"bat",c:"--lose",a:"l"},
@@ -876,8 +996,23 @@ const C = [
  price:"Los civiles, acusados por cada bando de ayudar al otro. En Bojayá murieron entre 79 y 119 personas, según distintas fuentes.",
  next:"En medio de todo, un intento de paz.",
  src:[S.cev2, S.boj, S.rutas]},
+{era:"arm", y:1997, y2:1998, v:"ant", terr:{col:["170"]}, dout:1, img:"Masacre_de_Machuca",
+ lay:hl(["05"],"--lose","Antioquia","Dónde ocurrieron","Ituango y Segovia, Antioquia"),
+ pp:["castano","uribe"],
+ h:"Dos masacres, dos bandos: El Aro y Machuca",
+ t:"En un año, en el mismo departamento, los dos bandos arrasan pueblos enteros. Los paramilitares, con complicidad de militares, en El Aro. El ELN, al volar un oleoducto, en Machuca.",
+ ev:[{d:"22 oct 1997",l:"El Aro (Ituango)",t:"Unos 30 paramilitares entran al corregimiento y durante días torturan y asesinan a pobladores, queman casas y se roban el ganado.",p:[-75.68,7.05],k:"bat",c:"--ink-2",a:"l"},
+     {d:"1 jul 2006",l:"Corte IDH",t:"La Corte Interamericana condena al Estado por la omisión, aquiescencia y colaboración de la fuerza pública en las masacres de La Granja y El Aro.",p:[-75.76,7.18],c:"--gold",nl:1},
+     {d:"18 oct 1998",l:"Machuca (Segovia)",t:"El ELN dinamita el Oleoducto Central. El crudo encendido baja por el río y quema el caserío de madrugada.",p:[-74.75,7.15],k:"bat",c:"--lose"}],
+ stat:{v:84,lab:"muertos en Machuca, la mitad niños; en El Aro fueron asesinados al menos 17 campesinos"},
+ sides:[{n:"Paramilitares (El Aro)",w:"Con aquiescencia de miembros de la fuerza pública",r:"o",c:"--ink-3"},{n:"ELN (Machuca)",w:"Frente José Antonio Galán",r:"o",c:"--lose"},{n:"Los pueblos",w:"Campesinos de Ituango y Segovia",r:"p",c:"--gold"}],
+ price:"Campesinos y niños de dos corregimientos antioqueños, uno de cada lado de la guerra.",
+ next:"Mientras tanto, el gobierno intenta negociar con las FARC.",
+ src:[S.aro, S.aro2, S.machuca, S.machuca2]},
 {era:"arm", y:1998, y2:2002, v:"cag", terr:{col:["170"]}, dout:1, mun:1,
  lay:{title:"Zona de distensión", note:"Municipios despejados para el diálogo con las FARC", m:{"50":"a","18":"a"}, keys:{a:{c:"--ink-3",l:"Meta y Caquetá"}}, mun:[["--gold","5 municipios despejados"]]},
+ img:"Zona_de_distensión",
+ pp:["marulanda","ingrid"],
  h:"El Caguán",
  t:"Andrés Pastrana retira la fuerza pública de cinco municipios, unos 42.000 km², para negociar con las FARC. Tres años después, el proceso fracasa.",
  ev:[{d:"7 nov 1998",l:"Despeje",t:"Comienza la zona de distensión: La Macarena, Uribe, Mesetas, Vista Hermosa y San Vicente del Caguán.",p:[-74.77,2.12],c:"--gold",a:"l"},
@@ -891,6 +1026,7 @@ const C = [
  next:"El país elige a quien promete derrotar a las FARC.",
  src:[S.cag]},
 {era:"arm", y:2002, y2:2011, v:"col", terr:{col:["170"]}, dout:1,
+ pp:["uribe","santos","ingrid"],
  h:"Seguridad Democrática",
  t:"Álvaro Uribe gana con la promesa de derrotar a las FARC. Los paramilitares se desmovilizan y las FARC retroceden. Caen sus principales jefes.",
  ev:[{d:"7 ago 2002",l:"Posesión",t:"Las FARC disparan morteros contra la Casa de Nariño durante la posesión de Uribe.",p:P.bog,c:"--lose",a:"l"},
@@ -904,8 +1040,21 @@ const C = [
  price:"Los civiles y la verdad: la «parapolítica» llevó a decenas de congresistas a la cárcel.",
  next:"Detrás de las cifras de éxito había un crimen de Estado.",
  src:[S.auc]},
+{era:"arm", y:2002, yl:"16–17 oct 2002", v:"ant", terr:{col:["170"]}, dout:1, img:"Operación_Orión",
+ pp:["uribe"],
+ h:"Operación Orión",
+ t:"Más de 1.500 militares y policías entran a la Comuna 13 de Medellín para expulsar a las milicias guerrilleras. Paramilitares del Bloque Cacique Nutibara llegan detrás y se quedan.",
+ ev:[{d:"16 oct 2002",l:"Comuna 13, Medellín",t:"Helicópteros y tanquetas en barrios densamente poblados como Las Independencias y El Salado.",p:[-75.615,6.255],k:"bat",c:"--con",a:"l"},
+     {d:"2002–2003",l:"Desapariciones",t:"Organizaciones de víctimas registran decenas de desaparecidos y cientos de detenciones.",p:[-75.6,6.27],c:"--lose",nl:1},
+     {d:"dic 2024",l:"La Escombrera",t:"La JEP encuentra restos humanos en La Escombrera, el botadero donde, según testimonios, se enterró a desaparecidos.",p:[-75.635,6.285],c:"--lose",nl:1}],
+ stat:{v:459,lab:"desaparecidos estimados por la JEP en la Comuna 13 y San Javier; unos 200 en 2002"},
+ sides:[{n:"Fuerza pública",w:"Ejército, Policía, Fuerza Aérea",r:"g",c:"--con"},{n:"Milicias",w:"FARC, ELN y CAP",r:"p",c:"--lose"},{n:"Bloque Cacique Nutibara",w:"Paramilitares que se quedan con el control",r:"g",c:"--ink-3"}],
+ price:"Los habitantes de la Comuna 13 y las familias que todavía buscan a sus desaparecidos.",
+ next:"Afuera de las ciudades, otro crimen se estaba gestando en los cuarteles.",
+ src:[S.orion, S.orion2]},
 {era:"arm", y:2002, y2:2008, v:"col", terr:{col:["170"]}, dout:1,
  lay:hl(["05","20","44","54","41","85","50"],"--lose","Regiones priorizadas por la JEP","«Falsos positivos»: dónde se concentraron","Antioquia, Costa Caribe, Norte de Santander, Huila, Casanare y Meta"),
+ pp:["uribe","santos"],
  h:"Los «falsos positivos»",
  t:"Bajo la presión por mostrar bajas, unidades del Ejército asesinaron a civiles, en su mayoría jóvenes pobres, y los presentaron como guerrilleros muertos en combate.",
  ev:[{d:"sep 2008",l:"Soacha y Ocaña",t:"Jóvenes desaparecidos en Soacha aparecen muertos en Ocaña como «guerrilleros». Estalla el escándalo.",p:P.oca,c:"--lose"},
@@ -917,6 +1066,18 @@ const C = [
  price:"Los muertos y sus madres, como las Madres de Soacha, que llevan años exigiendo verdad.",
  next:"Debilitadas militarmente, las FARC aceptan negociar.",
  src:[S.jep, S.jep2]},
+{era:"vio", y:2011, v:"col", terr:{col:["170"]}, dout:1, img:"Ley_de_Víctimas_y_Restitución_de_Tierras",
+ pp:["santos"],
+ h:"Ley de Víctimas y restitución de tierras",
+ t:"Por primera vez una ley reconoce que en Colombia hay un conflicto armado y que sus víctimas tienen derecho a reparación y a recuperar las tierras que les quitaron.",
+ ev:[{d:"10 jun 2011",l:"Ley 1448",t:"Juan Manuel Santos sanciona la Ley de Víctimas y Restitución de Tierras.",p:P.bog,c:"--gold",a:"l"},
+     {d:"2012",l:"Unidad para las Víctimas",t:"Empieza el Registro Único de Víctimas y nacen jueces especializados en restitución de tierras.",p:N(P.bog,.1,.1),c:"--gold",nl:1},
+     {d:"2021",l:"Prórroga",t:"La vigencia de la ley se amplía por diez años más.",p:N(P.bog,-.1,-.1),c:"--gold",nl:1}],
+ stat:{v:10279191,lab:"víctimas inscritas en el Registro Único hasta 2025, casi el triple de lo que se calculaba en 2011"},
+ sides:[{n:"Víctimas",w:"Reconocidas por la ley",r:"m",c:"--gold"},{n:"Despojadores",w:"Quienes se quedaron con tierras ajenas",r:"m",c:"--ink-3"}],
+ price:"Los reclamantes de tierras: muchos han sido amenazados o asesinados al intentar volver.",
+ next:"Dos años después, los campesinos se toman las carreteras.",
+ src:[S.ley, S.ley2, S.ruv2]},
 {era:"ter", y:2012, y2:2023, v:"sa", terr:{col:["170"]},
  h:"El mar de San Andrés",
  t:"La Corte Internacional de Justicia deja a Colombia todas las islas y cayos, pero entrega a Nicaragua una gran franja del mar Caribe.",
@@ -930,8 +1091,22 @@ const C = [
  price:"Los pescadores raizales del archipiélago.",
  next:"Ese mismo año empiezan los diálogos de La Habana.",
  src:[S.icj, S.icj2]},
+{era:"vio", y:2013, v:"col", terr:{col:["170"]}, dout:1, img:"Paro_nacional_agrario_en_Colombia_de_2013",
+ lay:hl(["15","25","52","19","86","18","05","76"],"--fa","Departamentos con bloqueos y protestas","Paro Nacional Agrario","Boyacá fue el epicentro"),
+ pp:["santos"],
+ h:"El Paro Agrario",
+ t:"Paperos, cafeteros, lecheros y arroceros bloquean las carreteras contra los costos de producción y los tratados de libre comercio. Las ruanas de Boyacá se vuelven símbolo.",
+ ev:[{d:"19 ago 2013",l:"Inicio",t:"Comienza el Paro Nacional Agrario en buena parte del país.",p:[-73.36,5.54],c:"--fa",a:"l"},
+     {d:"ago 2013",l:"«El tal paro no existe»",t:"El presidente Santos minimiza la protesta con una frase que se vuelve famosa.",p:P.bog,c:"--con",a:"l"},
+     {d:"ago 2013",l:"Boyacá",t:"Bloqueos en casi todo el departamento. Santos viaja a Tunja y abre una mesa de negociación.",p:N([-73.36,5.54],.25,.2),c:"--gold",nl:1},
+     {d:"2014",l:"Disculpas",t:"En campaña en Boyacá, Santos pide perdón por haber negado el paro.",p:N([-73.36,5.54],-.2,-.2),c:"--gold",nl:1}],
+ sides:[{n:"Campesinos",w:"Dignidad Agropecuaria, paperos de Boyacá",r:"m",c:"--fa"},{n:"Gobierno Santos",w:"Negocia después de los bloqueos",r:"m",c:"--con"}],
+ price:"Los pequeños productores. Varios manifestantes murieron en los enfrentamientos.",
+ next:"En La Habana, mientras tanto, avanzaba la negociación.",
+ src:[S.paro13, S.paro13b]},
 {era:"arm", y:2012, y2:2016, v:"col", terr:{col:["170"]}, dout:1,
  lay:{title:"Plebiscito de 2016", note:"Ganador por departamento. Registraduría", m:Object.fromEntries(PLEB_NO.map(c=>[c,"no"])), def:"si", keys:{no:{c:"--fb",l:"Ganó el No (13)"}, si:{c:"--fa",l:"Ganó el Sí (19 + Bogotá)"}}},
+ pp:["santos","timo","uribe"],
  h:"El acuerdo de paz con las FARC",
  t:"Tras cuatro años en La Habana, el gobierno de Juan Manuel Santos y las FARC firman la paz. El No gana el plebiscito por menos de medio punto; en general, las zonas más golpeadas por la guerra votaron Sí.",
  special:"pleb",
@@ -947,6 +1122,7 @@ const C = [
  next:"Firmar fue difícil. Cumplir ha sido más difícil.",
  src:[S.pleb, S.pleb2]},
 {era:"arm", y:2017, y2:2022, v:"col", terr:{col:["170"]}, dout:1,
+ pp:["timo"],
  h:"Implementación y rearme",
  t:"Las FARC entregan las armas y se vuelven partido. Nacen la JEP y la Comisión de la Verdad. Pero una parte de los excombatientes se rearma, el ELN sigue en guerra y los firmantes son asesinados.",
  ev:[{d:"27 jun 2017",l:"Mesetas",t:"Acto final de dejación de armas verificado por la ONU.",p:[-74.05,3.38],c:"--gold",a:"l"},
@@ -960,6 +1136,7 @@ const C = [
  next:"En 2021 la protesta estalla en las ciudades.",
  src:[S.indepaz, S.cev, S.egs]},
 {era:"vio", y:2021, v:"col", terr:{col:["170"]}, dout:1,
+ img:"Paro_nacional_en_Colombia_de_2021",
  h:"El estallido social",
  t:"Una reforma tributaria en plena pandemia desata el Paro Nacional. Marchas, bloqueos y la «primera línea» en Cali, Bogotá y otras ciudades durante semanas.",
  ev:[{d:"28 abr 2021",l:"Paro Nacional",t:"Comienzan las movilizaciones en todo el país.",p:P.bog,c:"--fa",a:"l"},
@@ -973,6 +1150,7 @@ const C = [
  src:[S.paro]},
 {era:"arm", y:2022, y2:2025, v:"col", terr:{col:["170"]}, dout:1,
  lay:hl(["19","05","76","54"],"--lose","Más líderes asesinados en 2025 (Cauca, Antioquia, Valle) y crisis del Catatumbo","Dónde golpea hoy la guerra","Indepaz; ONU"),
+ pp:["petro","mut"],
  h:"«Paz Total» y la guerra que sigue",
  t:"Gustavo Petro intenta negociar con todos los grupos a la vez. Los diálogos avanzan poco y los grupos se disputan coca, minería y fronteras. En 2025 estalla el Catatumbo y matan a un candidato presidencial.",
  ev:[{d:"19 jun 2022",l:"Petro",t:"Gana el primer presidente de izquierda en la historia del país.",p:P.bog,c:"--lib",a:"l"},
@@ -987,10 +1165,12 @@ const C = [
  next:"Así llega el país a las elecciones de 2026.",
  src:[S.cat, S.cat2, S.lid, S.mut]},
 {era:"vio", y:2026, v:"col", terr:{col:["170"]}, dout:1,
- lay:{title:"Segunda vuelta 2026 · departamentos destacados", note:"Solo departamentos con dato confirmado en las fuentes. Mapa completo en Registraduría",
-      m:{"05":"d","54":"d","50":"d","63":"d","81":"d","52":"c","86":"c"}, keys:{d:{c:"--con",l:"Ganó De la Espriella"}, c:{c:"--lib",l:"Ganó Cepeda"}}},
+ lay:{title:"Segunda vuelta 2026 por departamento", note:"Vaupés: sin dato confirmado en las fuentes consultadas",
+      m:Object.fromEntries([["05","15","17","25","41","63","66","73","81","95","50","85","68","54"].map(c=>[c,"d"]),["08","13","20","23","44","47","70","88","19","52","76","91","94","99","27","18","86","11"].map(c=>[c,"c"])].flat()),
+      keys:{d:{c:"--con",l:"Ganó De la Espriella (14)"}, c:{c:"--lib",l:"Ganó Cepeda (17 + Bogotá)"}}},
+ pp:["dle","cepeda","petro"],
  h:"Elecciones de 2026",
- t:"Un país partido en dos. El abogado de derecha Abelardo de la Espriella derrota por menos de un punto al senador de izquierda Iván Cepeda, hijo de Manuel Cepeda, asesinado en 1994.",
+ t:"Un país partido en dos. El abogado de derecha Abelardo de la Espriella derrota por menos de un punto al senador de izquierda Iván Cepeda, hijo de Manuel Cepeda, asesinado en 1994. Cepeda gana más departamentos; De la Espriella, más municipios (758 contra 431) y más votos.",
  special:"runoff",
  ev:[{d:"31 may 2026",l:"Primera vuelta",t:"De la Espriella 43,74 %, Cepeda 40,90 %, Paloma Valencia 6,92 %. Participación: 57,88 %.",p:P.bog,c:"--gold",a:"l"},
      {d:"21 jun 2026",l:"Segunda vuelta",t:"De la Espriella 49,66 % (12,96 millones de votos) contra Cepeda 48,70 % (12,71 millones).",p:N(P.bog,.1,.1),c:"--con",nl:1},
@@ -1002,11 +1182,12 @@ const C = [
  sides:[{n:"Abelardo de la Espriella",w:"Derecha; fuerte en Antioquia y los Santanderes",r:"g",c:"--con"},{n:"Iván Cepeda",w:"Pacto Histórico; fuerte en el Pacífico y el Caribe",r:"p",c:"--lib"}],
  price:"La mitad del país que perdió, por unos 250.000 votos.",
  next:"¿Y qué queda de cinco siglos de disputas?",
- src:[S.el1, S.el2, S.el3, S.regis]},
-{era:"arm", y:2026, yl:"el balance", v:"col", terr:{ghost:["170"]}, special:"balance",
+ src:[S.el1, S.el2, S.el4, S.el5, S.el3, S.regis]},
+{era:"arm", y:2026, yl:"el balance", v:"col", terr:{ghost:["170"]}, dout:1, special:"balance",
+ lay:{title:"Víctimas por cada 1.000 habitantes", note:"Personas víctimas registradas (RUV), corte junio de 2018. Minsalud. Gris: sin dato confirmado", op:.85, m:{"18":"b6","86":"b6","27":"b5","95":"b5","70":"b5","81":"b5","20":"b4","47":"b3","94":"b3","50":"b3","05":"b3","52":"b2","19":"b2","13":"b2","23":"b2","54":"b2","41":"b2","85":"b2","73":"b1","68":"b1","76":"b1"}, vals:{"18":"320 víctimas por cada 1.000 habitantes (158.705 personas)","86":"315 víctimas por cada 1.000 habitantes (112.926 personas)","27":"280 víctimas por cada 1.000 habitantes (144.268 personas)","95":"275 víctimas por cada 1.000 habitantes","70":"259 víctimas por cada 1.000 habitantes","81":"254 víctimas por cada 1.000 habitantes","20":"233 víctimas por cada 1.000 habitantes (248.280 personas)","47":"194 víctimas por cada 1.000 habitantes (252.164 personas)","94":"193 víctimas por cada 1.000 habitantes (8.404 personas)","50":"182 víctimas por cada 1.000 habitantes (184.678 personas)","05":"159 víctimas por cada 1.000 habitantes (1.065.297 personas)","52":"143 víctimas por cada 1.000 habitantes (259.363 personas)","19":"139 víctimas por cada 1.000 habitantes (196.806 personas)","13":"138 víctimas por cada 1.000 habitantes (300.223 personas)","23":"125 víctimas por cada 1.000 habitantes (224.110 personas)","54":"119 víctimas por cada 1.000 habitantes (166.197 personas)","41":"119 víctimas por cada 1.000 habitantes (142.955 personas)","85":"115 víctimas por cada 1.000 habitantes (43.003 personas)","73":"94 víctimas por cada 1.000 habitantes (133.233 personas)","68":"93 víctimas por cada 1.000 habitantes (194.236 personas)","76":"69 víctimas por cada 1.000 habitantes (328.777 personas)"}, keys:{b6:{c:"--q6",l:"300 o más"},b5:{c:"--q5",l:"250–299"},b4:{c:"--q4",l:"200–249"},b3:{c:"--q3",l:"150–199"},b2:{c:"--q2",l:"100–149"},b1:{c:"--q1",l:"Menos de 100"}}},
  h:"Los que casi siempre pierden",
  t:"En casi todas las disputas de este recorrido, quienes más perdieron no pertenecían a ningún bando: campesinos, indígenas, afrodescendientes, líderes sociales.",
- src:[S.cev, S.cev2, S.basta, S.ruv, S.ruv2]},
+ src:[S.cev, S.cev2, S.basta, S.ruv, S.ruv2, S.minsalud]},
 {era:"fin", y:2026, yl:"epílogo", v:"outro", terr:{col:["170"]}, outro:true,
  h:"La historia no se repite, pero muchas veces rima",
  t:"Cambian los nombres, las armas y los colores de los bandos. Los patrones vuelven.",
@@ -1015,6 +1196,51 @@ const C = [
         ["1830 · 1903 · 2012","El centro pierde lo que queda lejos: Venezuela y Ecuador, Panamá, el mar de San Andrés."],
         ["1902 · 1953 · 1990 · 2016","Se firma la paz y se entregan las armas. Después, parte de lo pactado no se cumple."]]}
 ];
+
+/* ================= PERSONAJES ================= */
+const PPL = {
+  quesada:{n:"Gonzalo Jiménez de Quesada",y:"c. 1509–1579",w:"Gonzalo_Jiménez_de_Quesada",c:"--real",r:"Conquistador. Sometió a los muiscas y fundó Santafé de Bogotá en 1538."},
+  benkos:{n:"Benkos Biohó",y:"?–1621",w:"Benkos_Biohó",c:"--gold",r:"Africano esclavizado que escapó y fundó un palenque libre en los Montes de María. Ahorcado en Cartagena."},
+  galan:{n:"José Antonio Galán",y:"1749–1782",w:"José_Antonio_Galán",c:"--fa",r:"Líder popular de los Comuneros. Siguió en armas tras las capitulaciones; fue ejecutado y descuartizado."},
+  narino:{n:"Antonio Nariño",y:"1765–1823",w:"Antonio_Nariño",c:"--fa",r:"Tradujo los Derechos del Hombre. Presidente del Estado de Cundinamarca y jefe centralista en la Patria Boba."},
+  torres:{n:"Camilo Torres Tenorio",y:"1766–1816",w:"Camilo_Torres_Tenorio",c:"--fb",r:"Autor del Memorial de agravios y presidente de las Provincias Unidas. Fusilado durante la Reconquista."},
+  pola:{n:"Policarpa Salavarrieta",y:"c. 1795–1817",w:"Policarpa_Salavarrieta",c:"--fa",r:"Espía patriota en Santafé. Fusilada en la plaza mayor."},
+  morillo:{n:"Pablo Morillo",y:"1775–1837",w:"Pablo_Morillo",c:"--real",r:"General español que dirigió la Expedición Pacificadora y la Reconquista de 1815–1816."},
+  bolivar:{n:"Simón Bolívar",y:"1783–1830",w:"Simón_Bolívar",c:"--gold",r:"Libertador. Dirigió la Campaña Libertadora y presidió la Gran Colombia hasta su disolución."},
+  santander:{n:"Francisco de Paula Santander",y:"1792–1840",w:"Francisco_de_Paula_Santander",c:"--lib",r:"Vicepresidente de la Gran Colombia y presidente de la Nueva Granada. Rival de Bolívar; de su bando nace el liberalismo."},
+  sucre:{n:"Antonio José de Sucre",y:"1795–1830",w:"Antonio_José_de_Sucre",c:"--gold",r:"Ganó Pichincha y Tarqui. Asesinado en Berruecos."},
+  agualongo:{n:"Agustín Agualongo",y:"1780–1824",w:"Agustín_Agualongo",c:"--real",r:"Líder indígena y realista de Pasto. Fusilado en Popayán."},
+  obando:{n:"José María Obando",y:"1795–1861",w:"José_María_Obando",c:"--lib",r:"Caudillo caucano, jefe de los Supremos y luego presidente, derrocado por el golpe de Melo en 1854."},
+  mosquera:{n:"Tomás Cipriano de Mosquera",y:"1798–1878",w:"Tomás_Cipriano_de_Mosquera",c:"--lib",r:"General y cuatro veces presidente. Venció a los Supremos, se rebeló en 1860 y expropió bienes de la Iglesia."},
+  lopez:{n:"José Hilario López",y:"1798–1869",w:"José_Hilario_López",c:"--lib",r:"Presidente liberal (1849–1853) que abolió la esclavitud."},
+  melo:{n:"José María Melo",y:"1800–1860",w:"José_María_Melo",c:"--fb",r:"General que dio el golpe de 1854 con apoyo de los artesanos. Murió fusilado en México."},
+  nunez:{n:"Rafael Núñez",y:"1825–1894",w:"Rafael_Núñez",c:"--con",r:"Presidente y artífice de la Regeneración y de la Constitución de 1886."},
+  uribeuribe:{n:"Rafael Uribe Uribe",y:"1859–1914",w:"Rafael_Uribe_Uribe",c:"--lib",r:"Jefe liberal en la guerra de los Mil Días. Asesinado en Bogotá en 1914."},
+  herrera:{n:"Benjamín Herrera",y:"1853–1924",w:"Benjamín_Herrera",c:"--lib",r:"General liberal que firmó la paz del Wisconsin en 1902."},
+  marroquin:{n:"José Manuel Marroquín",y:"1827–1908",w:"José_Manuel_Marroquín",c:"--con",r:"Vicepresidente que dio golpe en 1900. Gobernaba cuando se separó Panamá."},
+  gaitan:{n:"Jorge Eliécer Gaitán",y:"1903–1948",w:"Jorge_Eliécer_Gaitán",c:"--lib",r:"Caudillo liberal y defensor de los trabajadores bananeros. Su asesinato desató el Bogotazo."},
+  ospina:{n:"Mariano Ospina Pérez",y:"1891–1976",w:"Mariano_Ospina_Pérez",c:"--con",r:"Presidente conservador durante el Bogotazo. Cerró el Congreso en 1949."},
+  laureano:{n:"Laureano Gómez",y:"1889–1965",w:"Laureano_Gómez",c:"--con",r:"Jefe conservador y presidente desde 1950. Pactó con los liberales el Frente Nacional."},
+  rojas:{n:"Gustavo Rojas Pinilla",y:"1900–1975",w:"Gustavo_Rojas_Pinilla",c:"--real",r:"General que tomó el poder en 1953. Fundó la Anapo; su derrota disputada de 1970 dio origen al M-19."},
+  salcedo:{n:"Guadalupe Salcedo",y:"1924–1957",w:"Guadalupe_Salcedo",c:"--lib",r:"Jefe de las guerrillas liberales del Llano. Entregó las armas en 1953 y fue asesinado en 1957."},
+  marulanda:{n:"Manuel Marulanda «Tirofijo»",y:"c. 1930–2008",w:"Manuel_Marulanda",c:"--lose",r:"Fundador y comandante de las FARC durante más de cuatro décadas."},
+  camilo:{n:"Camilo Torres Restrepo",y:"1929–1966",w:"Camilo_Torres_Restrepo",c:"--lose",r:"Sacerdote y sociólogo que se unió al ELN. Murió en su primer combate."},
+  turbay:{n:"Julio César Turbay",y:"1916–2005",w:"Julio_César_Turbay_Ayala",c:"--lib",r:"Presidente (1978–1982) que impuso el Estatuto de Seguridad."},
+  escobar:{n:"Pablo Escobar",y:"1949–1993",w:"Pablo_Escobar",c:"--lose",r:"Jefe del Cartel de Medellín y de «Los Extraditables»."},
+  galan2:{n:"Luis Carlos Galán",y:"1943–1989",w:"Luis_Carlos_Galán",c:"--lib",r:"Líder del Nuevo Liberalismo y favorito para 1990. Asesinado en Soacha por orden del Cartel de Medellín."},
+  pardo:{n:"Jaime Pardo Leal",y:"1941–1987",w:"Jaime_Pardo_Leal",c:"--fa",r:"Candidato presidencial de la Unión Patriótica, asesinado en 1987."},
+  mcepeda:{n:"Manuel Cepeda Vargas",y:"1930–1994",w:"Manuel_Cepeda_Vargas",c:"--fa",r:"Senador de la Unión Patriótica asesinado en 1994. Padre de Iván Cepeda."},
+  castano:{n:"Carlos Castaño",y:"1965–2004",w:"Carlos_Castaño_Gil",c:"--ink-3",r:"Jefe de las Autodefensas Unidas de Colombia (AUC)."},
+  pizarro:{n:"Carlos Pizarro",y:"1951–1990",w:"Carlos_Pizarro_Leongómez",c:"--gold",r:"Comandante del M-19 que firmó la paz. Asesinado semanas después como candidato presidencial."},
+  uribe:{n:"Álvaro Uribe",y:"n. 1952",w:"Álvaro_Uribe",c:"--con",r:"Presidente 2002–2010. Su política de Seguridad Democrática hizo retroceder a las FARC."},
+  santos:{n:"Juan Manuel Santos",y:"n. 1951",w:"Juan_Manuel_Santos",c:"--con",r:"Ministro de Defensa de Uribe y presidente 2010–2018. Firmó la paz con las FARC; Nobel de Paz 2016."},
+  ingrid:{n:"Íngrid Betancourt",y:"n. 1961",w:"Íngrid_Betancourt",c:"--gold",r:"Candidata presidencial secuestrada por las FARC en 2002. Liberada en la Operación Jaque."},
+  timo:{n:"Rodrigo Londoño «Timochenko»",y:"n. 1959",w:"Rodrigo_Londoño",c:"--lose",r:"Último comandante de las FARC. Firmó el acuerdo de paz y dirige el partido Comunes."},
+  petro:{n:"Gustavo Petro",y:"n. 1960",w:"Gustavo_Petro",c:"--lib",r:"Exmilitante del M-19. Presidente 2022–2026, el primero de izquierda."},
+  mut:{n:"Miguel Uribe Turbay",y:"1986–2025",w:"Miguel_Uribe_Turbay",c:"--con",r:"Senador y precandidato presidencial, nieto de Julio César Turbay. Murió tras un atentado en Bogotá."},
+  cepeda:{n:"Iván Cepeda",y:"n. 1962",w:"Iván_Cepeda",c:"--lib",r:"Senador del Pacto Histórico y defensor de víctimas. Perdió la segunda vuelta de 2026 por menos de un punto."},
+  dle:{n:"Abelardo de la Espriella",y:"",w:"Abelardo_de_la_Espriella",c:"--con",r:"Abogado de derecha. Ganó la presidencia en 2026."}
+};
 
 </script>
 <script>
@@ -1025,6 +1251,29 @@ const fmt = n=>Math.round(n).toLocaleString("es-CO");
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const NS="http://www.w3.org/2000/svg";
 const mk = (tag,attrs,parent)=>{const n=document.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,attrs[k]);if(parent)parent.appendChild(n);return n;};
+
+/* ---------------- wikipedia (fotos) ---------------- */
+const initials = n => n.replace(/«.*?»/g,"").split(/\s+/).filter(w=>/^[A-ZÁÉÍÓÚÑ]/.test(w)).slice(0,2).map(w=>w[0]).join("");
+const WK={};
+function wiki(t){
+  if(!(t in WK)) WK[t]=fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(t)}`,{headers:{"Api-User-Agent":"colombia-en-disputa (GitHub Pages)"}})
+    .then(r=>r.ok?r.json():null).catch(()=>null);
+  return WK[t];
+}
+const pickImg = s => s && (s.originalimage && s.originalimage.width<=1600 ? s.originalimage.source : s.thumbnail && s.thumbnail.source);
+function loadMedia(stepEl){
+  if(!stepEl || stepEl.dataset.media) return; stepEl.dataset.media="1";
+  stepEl.querySelectorAll("figure.ph[data-wiki]").forEach(f=>{
+    wiki(f.dataset.wiki).then(s=>{ const src=pickImg(s); if(!src) return;
+      const img=f.querySelector("img"); img.onload=()=>{ f.hidden=false; }; img.src=src; img.alt=s.title||"";
+      const url=s.content_urls&&s.content_urls.desktop&&s.content_urls.desktop.page;
+      f.querySelector("figcaption").innerHTML=`Imagen del artículo <a href="${url}" target="_blank" rel="noopener">«${esc(s.title)}»</a> · Wikimedia Commons`; });
+  });
+  stepEl.querySelectorAll("[data-av]").forEach(av=>{
+    const p=PPL[av.dataset.av]; wiki(p.w).then(s=>{ const src=s&&s.thumbnail&&s.thumbnail.source; if(!src) return;
+      const im=new Image(); im.onload=()=>{ av.style.backgroundImage=`url("${src}")`; av.classList.add("img"); }; im.src=src; });
+  });
+}
 
 /* ---------------- cards ---------------- */
 const SL={g:"ganó",p:"perdió",m:"a medias",o:"sin desenlace"};
@@ -1073,16 +1322,18 @@ function cardHTML(c,i){
     <div class="kicker"><i style="--ec:var(--gold)"></i>un recorrido visual<span>1499–2026</span></div>
     <h1>Colombia <em>en</em> disputa</h1><p class="txt">${esc(c.t)}</p>
     <button type="button" class="play" id="play"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Empezar el recorrido</button>
-    <ul class="howto"><li><b>Hitos:</b> cada fecha de una ficha es un punto en el mapa; tócala para ubicarla.</li><li><b>Capas:</b> algunos capítulos colorean el mapa por estados o departamentos; pasa el dedo o el cursor para ver el nombre.</li><li><b>Fuentes:</b> al pie de cada ficha y todas juntas en el botón «Fuentes», en la esquina superior izquierda.</li></ul>
+    <ul class="howto"><li><b>Hitos:</b> cada fecha de una ficha es un punto en el mapa; tócala para ubicarla.</li><li><b>Capas:</b> algunos capítulos colorean el mapa por estados o departamentos; pasa el dedo o el cursor para ver el nombre.</li><li><b>Personajes:</b> toca un nombre para ver su ficha, su foto y en qué capítulos aparece.</li><li><b>Fuentes:</b> al pie de cada ficha y todas juntas en el botón «Fuentes», en la esquina superior izquierda.</li></ul>
     <div class="legend"><span class="stamp g">ganó</span><span class="stamp p">perdió</span><span class="stamp m">a medias</span><span class="stamp o">sin desenlace</span></div></div>`;
   let stat="";
   if(c.stat) stat=`<div class="stat"><span class="num">${c.stat.txt?esc(c.stat.txt):`<em>${esc(c.stat.pre||"")}</em><span data-count="${c.stat.v}">0</span>${c.stat.suf?`<em>${esc(c.stat.suf)}</em>`:""}`}</span><span class="lab">${esc(c.stat.lab)}</span></div>`;
   const ev = c.ev? `<p class="hitos-h">Hitos</p><ol class="hitos">${c.ev.map((e,j)=>`<li><button type="button" data-j="${j}" class="${e.p?"":"nomap"}"><time>${esc(e.d)}</time><span><b>${esc(e.l)}.</b> ${esc(e.t)}</span></button></li>`).join("")}</ol>`:"";
   const src = c.src? `<p class="srcs">Fuentes: ${c.src.map(s=>`<a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a>`).join(" · ")}</p>`:"";
+  const fig = c.img ? `<figure class="ph" data-wiki="${esc(c.img)}" hidden><img alt=""><figcaption></figcaption></figure>` : "";
+  const ppl = c.pp ? `<div class="ppl"><p class="hitos-h">Personajes</p><div class="chips">${c.pp.map(id=>{const p=PPL[id]; return `<button type="button" class="pchip" data-p="${id}" style="--pc:var(${p.c})"><span class="av" data-av="${id}">${esc(initials(p.n))}</span><span>${esc(p.n)}</span></button>`;}).join("")}</div></div>` : "";
   return `<div class="card" style="--ec:var(${era.c})">
     <div class="kicker"><i></i>${esc(era.l)}<span>${esc(yrs)}</span></div>
-    <h2>${esc(c.h)}</h2><p class="txt">${esc(c.t)}</p>
-    ${ev}${sidesHTML(c)}${specialHTML(c)}${stat}
+    ${fig}<h2>${esc(c.h)}</h2><p class="txt">${esc(c.t)}</p>
+    ${ev}${sidesHTML(c)}${ppl}${specialHTML(c)}${stat}
     ${c.price?`<p class="price"><span><b>Pagó el precio:</b> ${esc(c.price)}</span></p>`:""}
     ${c.next?`<p class="next"><b>→</b> ${esc(c.next)}</p>`:""}${src}</div>`;
 }
@@ -1118,6 +1369,25 @@ function updateDock(i){
 }
 $("#prevBtn").onclick=()=>{ if(playing) setPlaying(false); goTo(Math.max(0,cur-1)); };
 $("#nextBtn").onclick=()=>{ if(playing) setPlaying(false); goTo(Math.min(C.length-1,cur+1)); };
+
+/* ---------------- personajes ---------------- */
+function openPerson(id){
+  const p=PPL[id]; if(!p) return;
+  const where=C.map((c,i)=>(c.pp||[]).includes(id)?i:-1).filter(i=>i>=0);
+  $("#pName").textContent=p.n; $("#pYears").textContent=p.y||"";
+  $("#pRole").textContent=p.r;
+  const ph=$("#pPhoto"); ph.textContent=initials(p.n); ph.style.backgroundImage=""; ph.classList.remove("img"); ph.style.setProperty("--pc",`var(${p.c})`);
+  $("#pWiki").href=`https://es.wikipedia.org/wiki/${encodeURIComponent(p.w)}`;
+  $("#pIn").innerHTML=where.map(i=>`<button type="button" data-go="${i}" style="--c:var(${ERA[C[i].era].c})"><span class="y"><i></i>${esc(yrs(C[i]))}</span><b>${esc(C[i].h)}</b></button>`).join("");
+  $("#pExtract").textContent=""; $("#pCredit").hidden=true;
+  wiki(p.w).then(s=>{ if(!s) return;
+    const src=pickImg(s); if(src){ const im=new Image(); im.onload=()=>{ ph.style.backgroundImage=`url("${src}")`; ph.classList.add("img"); }; im.src=src; $("#pCredit").hidden=false; }
+    if(s.extract) $("#pExtract").textContent=s.extract.length>420? s.extract.slice(0,s.extract.lastIndexOf(" ",420))+"…" : s.extract;
+  });
+  sheetOpen("#pSheet");
+}
+document.addEventListener("click",e=>{ const b=e.target.closest(".pchip"); if(b){ openPerson(b.dataset.p); } });
+document.querySelector("#pIn")?.addEventListener("click",e=>{ const b=e.target.closest("[data-go]"); if(!b) return; sheetClose(); goTo(+b.dataset.go); });
 
 /* ---------------- paneles ---------------- */
 let openSheet=null, lastFocus=null;
@@ -1156,7 +1426,7 @@ function renderSources(q){
     return `<section class="srcgrp"><span class="when">${esc(yrs(c))}</span><div><h4><button type="button" data-go="${i}">${esc(c.h)}</button></h4><ul>${list.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a><small>${esc(host(s[1]))}</small></li>`).join("")}</ul></div></section>`;
   }).join("");
   $("#srcBody").innerHTML = (rows || `<p class="empty">No hay fuentes que coincidan con «${esc(q)}».</p>`) +
-    `<p class="srcnote"><b>Datos del mapa:</b> límites departamentales del DANE, Marco Geoestadístico Nacional 2018 (paquete geo-colombia); países de Natural Earth (paquete world-atlas). Las formas de estados y zonas históricas son aproximaciones sobre divisiones actuales.<br><b>Nota:</b> los enlaces abren en una pestaña nueva. Los capítulos anteriores a 1810 son una síntesis general sin fuente enlazada.</p>`;
+    `<p class="srcnote"><b>Datos del mapa:</b> límites departamentales del DANE, Marco Geoestadístico Nacional 2018 (paquete geo-colombia); países de Natural Earth (paquete world-atlas). Las formas de estados y zonas históricas son aproximaciones sobre divisiones actuales.<br><b>Nota:</b> los enlaces abren en una pestaña nueva. Fotos y resúmenes de personajes: Wikipedia en español y Wikimedia Commons, cargados al abrir la página. Mapa de víctimas: tasas de Minsalud con datos del RUV (junio de 2018) para 21 departamentos.</p>`;
 }
 $("#srcSub").textContent=`${SRC_N} fuentes enlazadas en ${SRC_ALL.length} capítulos.`;
 $("#srcQ").addEventListener("input",e=>renderSources(e.target.value));
@@ -1281,8 +1551,8 @@ function setLayer(c){
   gM.classList.toggle("show", !!c.mun);
   for(const code in depEl){
     const n=depEl[code]; const k=L? (L.m[code] ?? L.def) : null;
-    if(k && L.keys[k]){ n.style.fill=`var(${L.keys[k].c})`; n.classList.add("on"); n.dataset.l=L.keys[k].l; }
-    else { n.style.fill=""; n.classList.remove("on"); delete n.dataset.l; }
+    if(k && L.keys[k]){ n.style.fill=`var(${L.keys[k].c})`; n.style.fillOpacity=L.op||""; n.classList.add("on"); n.dataset.l=(L.vals&&L.vals[code])||L.keys[k].l; }
+    else { n.style.fill=""; n.style.fillOpacity=""; n.classList.remove("on"); delete n.dataset.l; }
   }
   const lg=$("#mleg");
   if(L){
@@ -1337,12 +1607,13 @@ function setFlag(on){
 }
 document.addEventListener("click",e=>{ if(e.target.closest("[data-restart]")) goTo(0); });
 
+let mediaT=0;
 function setChapter(i, instant){
   if(i===cur) return; hidePopup(true); cur=i; const c=C[i];
   steps.forEach((s,j)=>s.classList.toggle("active",j===i));
   const era=ERA[c.era]; $("#era").style.setProperty("--ec",`var(${era.c})`); $("#era span").textContent=c.intro?"un recorrido visual":era.l;
   countYear(c);
-  updateDock(i); updateFab(i);
+  updateDock(i); updateFab(i); clearTimeout(mediaT); mediaT=setTimeout(()=>{ loadMedia(steps[i]); loadMedia(steps[i+1]); },450);
   stage.classList.toggle("outro",!!c.outro); setFlag(!!c.outro); dims();
   const T=c.terr||{};
   for(const id in countryEl){ countryEl[id].classList.remove("col","ghost","lost"); }
@@ -1407,12 +1678,14 @@ function onScroll(){
   steps.forEach((s,i)=>{ if(s.getBoundingClientRect().top < tY) idx=i; });
   setChapter(idx);
 }
-function goTo(i){
+function goTo(i, again){
   const card=steps[i].querySelector(".card"), r=card.getBoundingClientRect(), mob=innerWidth<900;
-  const top = mob ? r.top+scrollY - (stage.offsetHeight+16) : r.top+scrollY - Math.max(16,(innerHeight-r.height)/2);
-  scrollTo({top:Math.max(0,Math.min(top, r.top+scrollY - 16)),behavior:RM?"auto":"smooth"});
+  const top = mob ? r.top+scrollY - (stage.offsetHeight+16) : r.top+scrollY - Math.max(76,(innerHeight-r.height)/2);
+  scrollTo({top:Math.max(0,Math.min(top, r.top+scrollY - (mob?16:76))),behavior:(RM||again)?"auto":"smooth"});
+  if(!again){ clearTimeout(goT); goT=setTimeout(()=>{ if(cur!==i) goTo(i,true); },1100); }
 }
-addEventListener("scroll",()=>requestAnimationFrame(onScroll),{passive:true});
+let goT=0;
+addEventListener("scroll",()=>requestAnimationFrame(()=>window.__noscroll||onScroll()),{passive:true});
 addEventListener("resize",()=>{ dims(); applyView(fit(V[C[Math.max(cur,0)].v])); if(flagOn && RM) flagFrame(0); });
 
 /* ---------------- play ---------------- */
